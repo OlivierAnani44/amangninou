@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Amangninou">
+  <rect width="512" height="512" rx="96" fill="#1d6a35" />
+  <path
+    d="M352 96c-104 12-184 88-201 188-8 45 5 86 36 117 79-39 133-108 162-206 3-10 18-6 16 5-16 91-62 163-136 218 26 7 56 5 86-8 95-41 139-162 113-301-2-11-17-15-26-13-17 4-34 3-50 0Z"
+    fill="#fffdf8"
+  />
+  <path
+    d="M105 383c37-24 76-52 112-86 21-20 40-41 57-64"
+    fill="none"
+    stroke="#f47b20"
+    stroke-linecap="round"
+    stroke-width="28"
+  />
+  <path
+    d="M170 173c34-43 85-70 145-77 19-2 37-2 57 0"
+    fill="none"
+    stroke="#8d45aa"
+    stroke-linecap="round"
+    stroke-width="20"
+  />
+</svg>
