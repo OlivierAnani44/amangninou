@@ -33,17 +33,6 @@ export function AppShell({
   return (
     <div className="app-shell">
       <header className="topbar">
-        <button
-          className="icon-button"
-          type="button"
-          aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-          aria-expanded={menuOpen}
-          title={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-          onClick={onToggleMenu}
-        >
-          <AppIcon name={menuOpen ? "X" : "Menu"} size={24} />
-        </button>
-
         <a className="brand" href="#accueil" onClick={onCloseMenu}>
           <span className="brand-symbol">
             <AppIcon name="Leaf" size={20} />
@@ -72,6 +61,17 @@ export function AppShell({
         >
           Contact
         </a>
+
+        <button
+          className="icon-button menu-toggle"
+          type="button"
+          aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={menuOpen}
+          title={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          onClick={onToggleMenu}
+        >
+          <AppIcon name={menuOpen ? "X" : "Menu"} size={24} />
+        </button>
       </header>
 
       <div

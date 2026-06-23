@@ -1,9 +1,9 @@
 export const navigationItems = [
-  { id: "accueil", label: "Accueil", href: "#accueil", icon: "Sparkles" },
-  { id: "services", label: "Nos services", href: "#services", icon: "ShieldCheck" },
+  { id: "accueil", label: "Accueil", href: "#accueil", icon: "Home" },
+  { id: "services", label: "Services", href: "#services", icon: "ShieldCheck" },
   { id: "temoignages", label: "Confiance", href: "#temoignages", icon: "MessageCircle" },
   { id: "boutique", label: "Boutique", href: "#boutique", icon: "ShoppingBag" },
-  { id: "rituel", label: "Rituel", href: "#rituel", icon: "BookOpenText" },
+  { id: "rituel", label: "Rituels", href: "#rituel", icon: "BookOpenText" },
   { id: "profil", label: "Profil", href: "#profil", icon: "UserRound" },
   { id: "contact", label: "Contact", href: "#contact", icon: "MessageCircle" },
 ];
@@ -21,7 +21,7 @@ export const secondaryNavigationItems = [
 export const pageIntros = {
   services: {
     eyebrow: "Services",
-    title: "Trouver vite le bon accompagnement",
+    title: "Accompagnement spirituel",
     description:
       "Les besoins sont regroupés clairement pour trouver le bon échange sans confusion.",
     icon: "ShieldCheck",
@@ -29,7 +29,7 @@ export const pageIntros = {
   },
   temoignages: {
     eyebrow: "Confiance",
-    title: "Comprendre avant de s’engager",
+    title: "Preuves et retours d’expérience",
     description:
       "Retours d’expérience, règles de prudence et preuves présentées sans promesse automatique.",
     icon: "BadgeCheck",
@@ -37,7 +37,7 @@ export const pageIntros = {
   },
   boutique: {
     eyebrow: "Boutique",
-    title: "Choisir un produit avec prudence",
+    title: "Boutique traditionnelle",
     description:
       "Des catégories simples, des précautions lisibles et un panier clair avant toute commande.",
     icon: "ShoppingBag",
@@ -45,7 +45,7 @@ export const pageIntros = {
   },
   rituel: {
     eyebrow: "Rituels",
-    title: "Découvrir les traditions avec respect",
+    title: "Rituels Vodou africains",
     description:
       "Fa, Dan, Sakpata et Hebiesso sont présentés avec sobriété, contexte et orientation.",
     icon: "BookOpenText",
@@ -53,7 +53,7 @@ export const pageIntros = {
   },
   profil: {
     eyebrow: "Profil",
-    title: "Garder le contrôle de son compte",
+    title: "Espace profil",
     description:
       "Compte facultatif, notifications choisies, sécurité renforcée et paramètres simples.",
     icon: "UserRound",
@@ -61,7 +61,7 @@ export const pageIntros = {
   },
   contact: {
     eyebrow: "Contact",
-    title: "Commencer par un échange discret",
+    title: "Contact discret",
     description:
       "Un message clair permet d’orienter la demande avant toute consultation ou commande.",
     icon: "MessageCircle",
@@ -73,6 +73,14 @@ export const heroStats = [
   { value: "24h", label: "réponse prioritaire" },
   { value: "Sécurité", label: "compte protégé" },
 ];
+
+export const ownerProfile = {
+  name: "Togbe Amangninou",
+  role: "Propriétaire du site",
+  specialty: "Spiritualité africaine, plantes traditionnelles et accompagnement discret",
+  imageSrc: "images/proprietaire.jpg",
+  initials: "TA",
+};
 
 export const serviceHighlights = [
   "Contact discret",

@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { AppIcon } from "../AppIcon";
 
-export function HeroSection({ highlights, stats }) {
+export function HeroSection({ highlights, owner, stats }) {
+  const [ownerImageLoaded, setOwnerImageLoaded] = useState(false);
+  const ownerImageSrc = owner?.imageSrc ? `${import.meta.env.BASE_URL}${owner.imageSrc}` : "";
+
   return (
     <section className="hero section-band" id="accueil">
       <div className="section-inner hero-grid">
@@ -33,11 +37,33 @@ export function HeroSection({ highlights, stats }) {
           </ul>
         </div>
 
-        <div className="hero-media" aria-label="Aperçu visuel Amangninou">
-          <img
-            src={`${import.meta.env.BASE_URL}images/hero-ritual.png`}
-            alt="Illustration de plantes, boutique et rituels Amangninou"
-          />
+        <div className="hero-media" aria-label="Portrait de Togbe Amangninou">
+          <article className="owner-photo-card">
+            <div className="owner-photo-frame">
+              {ownerImageSrc ? (
+                <img
+                  className={ownerImageLoaded ? "is-loaded" : undefined}
+                  src={ownerImageSrc}
+                  alt={`Portrait de ${owner?.name ?? "Togbe Amangninou"}`}
+                  onLoad={() => setOwnerImageLoaded(true)}
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                    setOwnerImageLoaded(false);
+                  }}
+                />
+              ) : null}
+              <div className="owner-photo-placeholder" aria-hidden={ownerImageLoaded}>
+                <span>{owner?.initials ?? "TA"}</span>
+              </div>
+            </div>
+
+            <div className="owner-photo-copy">
+              <span>Photo du propriétaire</span>
+              <strong>{owner?.name ?? "Togbe Amangninou"}</strong>
+              <p>{owner?.specialty}</p>
+            </div>
+          </article>
+
           <div className="hero-stat-grid">
             {stats.map((stat) => (
               <div className="hero-stat" key={stat.label}>

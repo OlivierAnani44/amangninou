@@ -94,7 +94,7 @@ GitHub Pages héberge le frontend statique. Le backend Python ne tourne pas sur 
 2. Depuis la racine du projet, liez le repository distant :
 
 ```powershell
-git remote add origin https://github.com/VOTRE-UTILISATEUR/amangninou.git
+git remote add origin https://github.com/OlivierAnani44/amangninou.git
 git branch -M main
 git add .
 git commit -m "Prepare GitHub Pages deployment"
@@ -120,6 +120,12 @@ https://VOTRE-UTILISATEUR.github.io/
 ## Modifier le contenu
 
 La majorité des textes, produits, services, témoignages et contacts se modifie dans `frontend/src/data/siteContent.js`.
+
+## Ajouter la photo du propriétaire
+
+Placez la photo dans `frontend/public/images/proprietaire.jpg`.
+
+Le cadre de l'accueil l'utilise automatiquement. Si le fichier n'existe pas encore, l'application affiche un emplacement propre avec les initiales.
 
 ## Travailler par onglet
 

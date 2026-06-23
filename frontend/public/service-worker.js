@@ -1,4 +1,4 @@
-const CACHE_NAME = "amangninou-cache-v6";
+const CACHE_NAME = "amangninou-cache-v7";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,7 +6,6 @@ const APP_SHELL = [
   "./icons/icon.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
-  "./images/hero-ritual.png",
 ].map((path) => new URL(path, self.registration.scope).toString());
 const OFFLINE_FALLBACK = new URL("./index.html", self.registration.scope).toString();
 
