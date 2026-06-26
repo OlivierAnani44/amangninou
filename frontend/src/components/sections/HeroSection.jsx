@@ -3,7 +3,12 @@ import { AppIcon } from "../AppIcon";
 
 export function HeroSection({ copy, highlights, owner, stats }) {
   const [ownerImageLoaded, setOwnerImageLoaded] = useState(false);
-  const ownerImageSrc = owner?.imageSrc ? `${import.meta.env.BASE_URL}${owner.imageSrc}` : "";
+  const ownerImageSrc = owner?.imageSrc?.startsWith("data:")
+    || owner?.imageSrc?.startsWith("http")
+    ? owner.imageSrc
+    : owner?.imageSrc
+      ? `${import.meta.env.BASE_URL}${owner.imageSrc}`
+      : "";
 
   return (
     <section className="hero section-band" id="accueil">

@@ -5,7 +5,13 @@ export function RitualsPage({ content }) {
   return (
     <>
       <PageIntro intro={content.pageIntros.rituel} />
-      <RitualsSection copy={content.ritualsSection} rituals={content.rituals} />
+      <RitualsSection
+        contactSettings={content.contactSettings}
+        copy={content.ritualsSection}
+        videoCopy={content.ritualVideosSection}
+        videos={content.ritualVideos}
+        rituals={content.rituals}
+      />
     </>
   );
 }

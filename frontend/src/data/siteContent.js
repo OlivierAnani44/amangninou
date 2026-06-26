@@ -6,19 +6,23 @@ export const supportedLanguages = [
 
 export const defaultLanguage = "fr";
 
-export const primaryTabIds = ["accueil", "services", "boutique", "rituel", "profil"];
+export const primaryTabIds = ["accueil", "services", "astuces", "boutique", "rituel"];
 
 const baseNavigation = [
   { id: "accueil", href: "#accueil", icon: "Home" },
   { id: "services", href: "#services", icon: "ShieldCheck" },
+  { id: "astuces", href: "#astuces", icon: "CirclePlay" },
   { id: "temoignages", href: "#temoignages", icon: "MessageCircle" },
   { id: "boutique", href: "#boutique", icon: "ShoppingBag" },
   { id: "rituel", href: "#rituel", icon: "BookOpenText" },
   { id: "profil", href: "#profil", icon: "UserRound" },
   { id: "contact", href: "#contact", icon: "MessageCircle" },
+  { id: "admin", href: "#admin", icon: "Settings" },
 ];
 
 const baseSecondaryNavigation = [
+  { id: "profil", href: "#profil", icon: "UserRound" },
+  { id: "admin", href: "#admin", icon: "Settings" },
   { id: "contact", href: "#contact", icon: "MessageCircle" },
   { id: "temoignages", href: "#temoignages", icon: "BadgeCheck" },
   { id: "securite", href: "#profil", icon: "LockKeyhole" },
@@ -34,6 +38,9 @@ const ownerImage = {
 const whatsappNumber = "22870515141";
 const phoneDisplay = "+228 70 51 51 41";
 const ownerEmail = "togbeamangninou0@gmail.com";
+const youtubeChannelUrl = "https://m.youtube.com/channel/UCVZH80MU774K2ROUuXFwYsA";
+const youtubeUploadsEmbedUrl = "https://www.youtube.com/embed/videoseries?list=UUVZH80MU774K2ROUuXFwYsA";
+const tiktokUrl = "https://www.tiktok.com/@togbe.amangninou8";
 
 const contactChannels = [
   { id: "whatsapp", value: phoneDisplay, href: `https://wa.me/${whatsappNumber}`, icon: "BrandWhatsapp" },
@@ -44,15 +51,23 @@ const contactChannels = [
 const socialLinks = [
   {
     id: "youtube",
-    href: "https://m.youtube.com/channel/UCVZH80MU774K2ROUuXFwYsA",
+    href: youtubeChannelUrl,
     icon: "BrandYoutube",
   },
   {
     id: "tiktok",
-    href: "https://www.tiktok.com/@togbe.amangninou8",
+    href: tiktokUrl,
     icon: "BrandTikTok",
   },
 ];
+
+const getContactSettings = (adminContent = {}) => ({
+  whatsappNumber: adminContent.contact?.whatsappNumber || whatsappNumber,
+  phoneDisplay: adminContent.contact?.phoneDisplay || phoneDisplay,
+  email: adminContent.contact?.email || ownerEmail,
+  youtubeUrl: adminContent.contact?.youtubeUrl || youtubeChannelUrl,
+  tiktokUrl: adminContent.contact?.tiktokUrl || tiktokUrl,
+});
 
 const baseServices = [
   { id: "consultation", icon: "Sparkles" },
@@ -101,11 +116,13 @@ const dictionaries = {
     navigation: {
       accueil: "Accueil",
       services: "Services",
+      astuces: "Astuces",
       temoignages: "Confiance",
       boutique: "Boutique",
       rituel: "Rituels",
       profil: "Profil",
       contact: "Contact",
+      admin: "Admin",
       securite: "Sécurité",
       mentions: "Mentions",
       parametres: "Paramètres",
@@ -117,6 +134,13 @@ const dictionaries = {
         description: "Les besoins sont regroupés clairement pour trouver le bon échange sans confusion.",
         icon: "ShieldCheck",
         action: "Demander conseil",
+      },
+      astuces: {
+        eyebrow: "Astuces",
+        title: "Conseils, vidéos et repères",
+        description: "Des vidéos simples pour comprendre l’approche, voir le sérieux du travail et poser de meilleures questions.",
+        icon: "CirclePlay",
+        action: "Voir les vidéos",
       },
       temoignages: {
         eyebrow: "Confiance",
@@ -145,6 +169,13 @@ const dictionaries = {
         description: "Compte facultatif, notifications choisies, sécurité renforcée et paramètres simples.",
         icon: "UserRound",
         action: "Configurer le profil",
+      },
+      admin: {
+        eyebrow: "Admin",
+        title: "Gestion du site",
+        description: "Un espace privé pour modifier les contenus visibles, les produits, les vidéos, les témoignages et les coordonnées.",
+        icon: "Settings",
+        action: "Ouvrir l’admin",
       },
       contact: {
         eyebrow: "Contact",
@@ -185,6 +216,30 @@ const dictionaries = {
       exploreTitle: "Accès rapide aux espaces",
       exploreDescription: "Accédez rapidement aux services, aux produits traditionnels, aux rituels ou à votre espace de suivi.",
     },
+    tipsSection: {
+      eyebrow: "Astuces",
+      title: "Vidéos utiles et conseils pratiques",
+      description: "Un espace vidéo pour découvrir les conseils, les explications et les contenus publics de Togbe Amangninou.",
+    },
+    tipVideos: [
+      {
+        id: "chaine-youtube-astuces",
+        title: "Vidéos de conseils de Togbe Amangninou",
+        tag: "Conseils vidéo",
+        description: "Retrouvez les publications vidéo de la chaîne pour mieux comprendre les plantes, les rituels et l’accompagnement proposé.",
+        embedUrl: youtubeUploadsEmbedUrl,
+        href: youtubeChannelUrl,
+        action: "Voir sur YouTube",
+      },
+      {
+        id: "ajout-video-astuce",
+        title: "Nouvelle astuce à ajouter",
+        tag: "À compléter",
+        description: "Un emplacement réservé pour une prochaine vidéo courte autour des plantes, des protections ou des questions fréquentes.",
+        href: youtubeChannelUrl,
+        action: "Ouvrir la chaîne",
+      },
+    ],
     serviceCategories: [
       { label: "Spiritualité", icon: "Sparkles" },
       { label: "Couple", icon: "HeartHandshake" },
@@ -331,6 +386,22 @@ const dictionaries = {
       action: "Demander une consultation",
       whatsappText: "Bonjour, je souhaite demander une consultation pour le rituel : {ritual}.\nSujet : {subtitle}",
     },
+    ritualVideosSection: {
+      eyebrow: "Vidéos",
+      title: "Rituels et explications en vidéo",
+      description: "Des contenus vidéo pour observer l’ambiance, le sérieux et les explications publiques autour des rituels.",
+    },
+    ritualVideos: [
+      {
+        id: "chaine-youtube-rituels",
+        title: "Vidéos publiques autour des rituels",
+        tag: "Rituels",
+        description: "Une sélection issue de la chaîne pour découvrir les explications, les gestes et les repères présentés publiquement.",
+        embedUrl: youtubeUploadsEmbedUrl,
+        href: youtubeChannelUrl,
+        action: "Voir sur YouTube",
+      },
+    ],
     rituals: {
       fa: {
         name: "Fa",
@@ -513,21 +584,25 @@ const dictionaries = {
     navigation: {
       accueil: "Home",
       services: "Services",
+      astuces: "Tips",
       temoignages: "Trust",
       boutique: "Shop",
       rituel: "Rituals",
       profil: "Profile",
       contact: "Contact",
+      admin: "Admin",
       securite: "Security",
       mentions: "Legal",
       parametres: "Settings",
     },
     pageIntros: {
       services: { eyebrow: "Services", title: "Spiritual guidance", description: "Needs are grouped clearly so you can find the right first conversation without confusion.", icon: "ShieldCheck", action: "Ask for advice" },
+      astuces: { eyebrow: "Tips", title: "Advice, videos and guidance", description: "Simple videos to understand the approach, see the seriousness of the work and ask better questions.", icon: "CirclePlay", action: "Watch videos" },
       temoignages: { eyebrow: "Trust", title: "Evidence and experiences", description: "Experience feedback, caution rules and proof are presented without automatic promises.", icon: "BadgeCheck", action: "Ask a question" },
       boutique: { eyebrow: "Shop", title: "Traditional shop", description: "Simple categories, readable precautions and a clear cart before any order.", icon: "ShoppingBag", action: "View products" },
       rituel: { eyebrow: "Rituals", title: "African Vodou rituals", description: "Fa, Dan, Sakpata and Hebiesso are presented with sobriety, context and guidance.", icon: "BookOpenText", action: "Request a consultation" },
       profil: { eyebrow: "Profile", title: "Profile space", description: "Optional account, chosen notifications, stronger security and simple settings.", icon: "UserRound", action: "Configure profile" },
+      admin: { eyebrow: "Admin", title: "Site management", description: "A private space to edit visible content, products, videos, testimonials and contact details.", icon: "Settings", action: "Open admin" },
       contact: { eyebrow: "Contact", title: "Discreet contact", description: "A clear message helps guide the request before any consultation or order.", icon: "MessageCircle", action: "Write on WhatsApp" },
     },
     hero: {
@@ -561,6 +636,30 @@ const dictionaries = {
       exploreTitle: "Quick access to spaces",
       exploreDescription: "Access services, traditional products, rituals or your follow-up space quickly.",
     },
+    tipsSection: {
+      eyebrow: "Tips",
+      title: "Useful videos and practical advice",
+      description: "A video space to discover advice, explanations and public content from Togbe Amangninou.",
+    },
+    tipVideos: [
+      {
+        id: "chaine-youtube-astuces",
+        title: "Advice videos from Togbe Amangninou",
+        tag: "Video advice",
+        description: "Find public videos from the channel to better understand plants, rituals and the support offered.",
+        embedUrl: youtubeUploadsEmbedUrl,
+        href: youtubeChannelUrl,
+        action: "Watch on YouTube",
+      },
+      {
+        id: "ajout-video-astuce",
+        title: "Upcoming short advice video",
+        tag: "Coming soon",
+        description: "A reserved space for a future short video about plants, protection or frequent questions.",
+        href: youtubeChannelUrl,
+        action: "Open channel",
+      },
+    ],
     serviceCategories: [
       { label: "Spirituality", icon: "Sparkles" },
       { label: "Couple", icon: "HeartHandshake" },
@@ -641,6 +740,22 @@ const dictionaries = {
       action: "Request a consultation",
       whatsappText: "Hello, I would like to request a consultation for the ritual: {ritual}.\nTopic: {subtitle}",
     },
+    ritualVideosSection: {
+      eyebrow: "Videos",
+      title: "Rituals and explanations on video",
+      description: "Video content to observe the atmosphere, seriousness and public explanations around rituals.",
+    },
+    ritualVideos: [
+      {
+        id: "chaine-youtube-rituels",
+        title: "Public videos about rituals",
+        tag: "Rituals",
+        description: "A selection from the channel to discover explanations, gestures and public guidance.",
+        embedUrl: youtubeUploadsEmbedUrl,
+        href: youtubeChannelUrl,
+        action: "Watch on YouTube",
+      },
+    ],
     rituals: {
       fa: { name: "Fa", subtitle: "Geomancy and guidance", tone: "Guidance", details: ["Question asked", "Guided reading", "Clear decision"], text: "Traditional reading used to clarify a situation, understand a blockage and choose a direction." },
       dan: { name: "Dan", subtitle: "Balance and vital force", tone: "Balance", details: ["Vital force", "Continuity", "Stability"], text: "Symbolism linked to movement, balance and continuity in several African Vodou traditions." },
@@ -789,6 +904,7 @@ const dictionaries = {
       rituel: "Rituais",
       profil: "Perfil",
       contact: "Contacto",
+      admin: "Admin",
       securite: "Segurança",
       mentions: "Avisos legais",
       parametres: "Definições",
@@ -799,6 +915,7 @@ const dictionaries = {
       boutique: { eyebrow: "Loja", title: "Loja tradicional", description: "Categorias simples, precauções legíveis e um carrinho claro antes de qualquer encomenda.", icon: "ShoppingBag", action: "Ver produtos" },
       rituel: { eyebrow: "Rituais", title: "Rituais Vodou africanos", description: "Fa, Dan, Sakpata e Hebiesso são apresentados com sobriedade, contexto e orientação.", icon: "BookOpenText", action: "Pedir consulta" },
       profil: { eyebrow: "Perfil", title: "Espaço de perfil", description: "Conta opcional, notificações escolhidas, segurança reforçada e definições simples.", icon: "UserRound", action: "Configurar perfil" },
+      admin: { eyebrow: "Admin", title: "Gestão do site", description: "Um espaço privado para editar conteúdos visíveis, produtos, vídeos, testemunhos e contactos.", icon: "Settings", action: "Abrir admin" },
       contact: { eyebrow: "Contacto", title: "Contacto discreto", description: "Uma mensagem clara ajuda a orientar o pedido antes de qualquer consulta ou encomenda.", icon: "MessageCircle", action: "Escrever no WhatsApp" },
     },
     hero: {
@@ -1055,23 +1172,27 @@ dictionaries.es = {
     mobileNavigation: "Navegación móvil",
   },
   navigation: {
-    accueil: "Inicio",
-    services: "Servicios",
-    temoignages: "Confianza",
+      accueil: "Inicio",
+      services: "Servicios",
+      astuces: "Consejos",
+      temoignages: "Confianza",
     boutique: "Tienda",
     rituel: "Rituales",
     profil: "Perfil",
     contact: "Contacto",
+    admin: "Admin",
     securite: "Seguridad",
     mentions: "Avisos",
     parametres: "Ajustes",
   },
   pageIntros: {
     services: { eyebrow: "Servicios", title: "Acompañamiento espiritual", description: "Las necesidades se organizan claramente para encontrar el intercambio adecuado sin confusión.", icon: "ShieldCheck", action: "Pedir consejo" },
+    astuces: { eyebrow: "Consejos", title: "Consejos, videos y referencias", description: "Videos simples para comprender el enfoque, ver la seriedad del trabajo y hacer mejores preguntas.", icon: "CirclePlay", action: "Ver videos" },
     temoignages: { eyebrow: "Confianza", title: "Pruebas y experiencias", description: "Experiencias, reglas de prudencia y pruebas presentadas sin promesas automáticas.", icon: "BadgeCheck", action: "Hacer una pregunta" },
     boutique: { eyebrow: "Tienda", title: "Tienda tradicional", description: "Categorías simples, precauciones claras y un carrito legible antes de cualquier pedido.", icon: "ShoppingBag", action: "Ver productos" },
     rituel: { eyebrow: "Rituales", title: "Rituales Vodou africanos", description: "Fa, Dan, Sakpata y Hebiesso se presentan con sobriedad, contexto y orientación.", icon: "BookOpenText", action: "Pedir una consulta" },
     profil: { eyebrow: "Perfil", title: "Espacio de perfil", description: "Cuenta opcional, notificaciones elegidas, seguridad reforzada y ajustes simples.", icon: "UserRound", action: "Configurar perfil" },
+    admin: { eyebrow: "Admin", title: "Gestión del sitio", description: "Un espacio privado para editar contenidos visibles, productos, videos, testimonios y contactos.", icon: "Settings", action: "Abrir admin" },
     contact: { eyebrow: "Contacto", title: "Contacto discreto", description: "Un mensaje claro ayuda a orientar la solicitud antes de cualquier consulta o pedido.", icon: "MessageCircle", action: "Escribir por WhatsApp" },
   },
   hero: {
@@ -1105,6 +1226,30 @@ dictionaries.es = {
     exploreTitle: "Acceso rápido a los espacios",
     exploreDescription: "Acceda rápidamente a servicios, productos tradicionales, rituales o a su espacio de seguimiento.",
   },
+  tipsSection: {
+    eyebrow: "Consejos",
+    title: "Videos útiles y consejos prácticos",
+    description: "Un espacio de video para descubrir consejos, explicaciones y contenidos públicos de Togbe Amangninou.",
+  },
+  tipVideos: [
+    {
+      id: "chaine-youtube-astuces",
+      title: "Videos de consejos de Togbe Amangninou",
+      tag: "Consejos en video",
+      description: "Encuentre las publicaciones de la cadena para comprender mejor las plantas, los rituales y el acompañamiento propuesto.",
+      embedUrl: youtubeUploadsEmbedUrl,
+      href: youtubeChannelUrl,
+      action: "Ver en YouTube",
+    },
+    {
+      id: "ajout-video-astuce",
+      title: "Próximo consejo corto",
+      tag: "Próximamente",
+      description: "Un espacio reservado para un próximo video corto sobre plantas, protección o preguntas frecuentes.",
+      href: youtubeChannelUrl,
+      action: "Abrir canal",
+    },
+  ],
   serviceCategories: [
     { label: "Espiritualidad", icon: "Sparkles" },
     { label: "Pareja", icon: "HeartHandshake" },
@@ -1185,6 +1330,22 @@ dictionaries.es = {
     action: "Pedir una consulta",
     whatsappText: "Hola, deseo pedir una consulta para el ritual: {ritual}.\nTema: {subtitle}",
   },
+  ritualVideosSection: {
+    eyebrow: "Videos",
+    title: "Rituales y explicaciones en video",
+    description: "Contenidos de video para observar el ambiente, la seriedad y las explicaciones públicas sobre los rituales.",
+  },
+  ritualVideos: [
+    {
+      id: "chaine-youtube-rituels",
+      title: "Videos públicos sobre rituales",
+      tag: "Rituales",
+      description: "Una selección de la cadena para descubrir explicaciones, gestos y referencias presentadas públicamente.",
+      embedUrl: youtubeUploadsEmbedUrl,
+      href: youtubeChannelUrl,
+      action: "Ver en YouTube",
+    },
+  ],
   rituals: {
     fa: { name: "Fa", subtitle: "Geomancia y orientación", tone: "Orientación", details: ["Pregunta planteada", "Lectura guiada", "Decisión aclarada"], text: "Lectura tradicional usada para aclarar una situación, comprender un bloqueo y elegir una dirección." },
     dan: { name: "Dan", subtitle: "Equilibrio y fuerza vital", tone: "Equilibrio", details: ["Fuerza vital", "Continuidad", "Estabilidad"], text: "Simbología vinculada al movimiento, al equilibrio y a la continuidad en varias tradiciones Vodou africanas." },
@@ -1318,14 +1479,19 @@ export const formatMessageTemplate = (template, replacements) =>
     template,
   );
 
-export const buildWhatsAppUrl = (message = "") => {
+export const buildWhatsAppUrl = (message = "", number = whatsappNumber) => {
   const text = String(message ?? "").trim();
   const query = text ? `?text=${encodeURIComponent(text)}` : "";
+  const normalizedNumber = String(number || whatsappNumber).replace(/\D/g, "");
 
-  return `https://wa.me/${whatsappNumber}${query}`;
+  return `https://wa.me/${normalizedNumber}${query}`;
 };
 
-const getPageIntroHref = (key, dictionary) => {
+const getPageIntroHref = (key, dictionary, contactSettings) => {
+  if (key === "astuces") {
+    return "#astuces";
+  }
+
   if (key === "boutique") {
     return "#boutique";
   }
@@ -1334,7 +1500,11 @@ const getPageIntroHref = (key, dictionary) => {
     return "#profil";
   }
 
-  return buildWhatsAppUrl(dictionary.app.whatsappMessage);
+  if (key === "admin") {
+    return "#admin";
+  }
+
+  return buildWhatsAppUrl(dictionary.app.whatsappMessage, contactSettings.whatsappNumber);
 };
 
 export const normalizeLanguage = (languageCode) => {
@@ -1370,28 +1540,52 @@ const makeRituals = (dictionary) =>
     ...dictionary.rituals[ritual.id],
   }));
 
-const makeChannels = (dictionary) =>
-  contactChannels.map((channel) => ({
-    ...channel,
-    href: channel.id === "whatsapp" ? buildWhatsAppUrl(dictionary.app.whatsappMessage) : channel.href,
-    label: dictionary.contactChannels[channel.id],
-  }));
+const makeChannels = (dictionary, contactSettings) =>
+  contactChannels.map((channel) => {
+    if (channel.id === "whatsapp") {
+      return {
+        ...channel,
+        value: contactSettings.phoneDisplay,
+        href: buildWhatsAppUrl(dictionary.app.whatsappMessage, contactSettings.whatsappNumber),
+        label: dictionary.contactChannels[channel.id],
+      };
+    }
 
-const makeSocialLinks = (dictionary) =>
+    if (channel.id === "phone") {
+      return {
+        ...channel,
+        value: contactSettings.phoneDisplay,
+        href: `tel:+${contactSettings.whatsappNumber}`,
+        label: dictionary.contactChannels[channel.id],
+      };
+    }
+
+    return {
+      ...channel,
+      value: contactSettings.email,
+      href: `mailto:${contactSettings.email}`,
+      label: dictionary.contactChannels[channel.id],
+    };
+  });
+
+const makeSocialLinks = (dictionary, contactSettings) =>
   socialLinks.map((link) => ({
     ...link,
+    href: link.id === "youtube" ? contactSettings.youtubeUrl : contactSettings.tiktokUrl,
     label: dictionary.socialLinks[link.id],
   }));
 
-export const getSiteContent = (languageCode = defaultLanguage) => {
+export const getSiteContent = (languageCode = defaultLanguage, adminContent = {}) => {
   const language = normalizeLanguage(languageCode);
   const dictionary = dictionaries[language] ?? dictionaries[defaultLanguage];
-  const contactChannelsForLanguage = makeChannels(dictionary);
-  const socialLinksForLanguage = makeSocialLinks(dictionary);
+  const languageAdminContent = adminContent.languages?.[language] ?? {};
+  const contactSettings = getContactSettings(adminContent);
+  const contactChannelsForLanguage = makeChannels(dictionary, contactSettings);
+  const socialLinksForLanguage = makeSocialLinks(dictionary, contactSettings);
   const pageIntros = Object.fromEntries(
     Object.entries(dictionary.pageIntros).map(([key, intro]) => [
       key,
-      withAction(intro, getPageIntroHref(key, dictionary)),
+      withAction(intro, getPageIntroHref(key, dictionary, contactSettings)),
     ]),
   );
 
@@ -1405,21 +1599,31 @@ export const getSiteContent = (languageCode = defaultLanguage) => {
     pageIntros,
     hero: dictionary.hero,
     heroStats: dictionary.heroStats,
-    ownerProfile: { ...ownerImage, ...dictionary.ownerProfile },
+    ownerProfile: { ...ownerImage, ...dictionary.ownerProfile, ...(adminContent.ownerProfile ?? {}) },
     serviceHighlights: dictionary.serviceHighlights,
     quickProofs: dictionary.quickProofs,
     home: dictionary.home,
+    tipsSection: dictionary.tipsSection,
+    tipVideos: languageAdminContent.tipVideos?.length ? languageAdminContent.tipVideos : dictionary.tipVideos,
     serviceCategories: dictionary.serviceCategories,
     servicesSection: dictionary.servicesSection,
     processSteps: dictionary.processSteps,
     services: makeServices(dictionary),
     trustSection: dictionary.trustSection,
     trustItems: dictionary.trustItems,
-    testimonials: dictionary.testimonials,
+    testimonials: languageAdminContent.testimonials?.length
+      ? languageAdminContent.testimonials
+      : dictionary.testimonials,
     shopSection: dictionary.shopSection,
     productFilters: dictionary.productFilters,
-    products: makeProducts(dictionary),
+    products: languageAdminContent.products?.length
+      ? languageAdminContent.products
+      : makeProducts(dictionary),
     ritualsSection: dictionary.ritualsSection,
+    ritualVideosSection: dictionary.ritualVideosSection,
+    ritualVideos: languageAdminContent.ritualVideos?.length
+      ? languageAdminContent.ritualVideos
+      : dictionary.ritualVideos,
     rituals: makeRituals(dictionary),
     profileSection: dictionary.profileSection,
     profileMessages: dictionary.profileMessages,
@@ -1428,6 +1632,7 @@ export const getSiteContent = (languageCode = defaultLanguage) => {
     securityItems: dictionary.securityItems,
     contactSection: dictionary.contactSection,
     contactChannels: contactChannelsForLanguage,
+    contactSettings,
     socialLinks: socialLinksForLanguage,
     footerLinks: [
       ...socialLinksForLanguage,

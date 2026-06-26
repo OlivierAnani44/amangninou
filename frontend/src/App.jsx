@@ -4,6 +4,7 @@ import { SiteFooter } from "./components/sections/SiteFooter";
 import { useActiveTab } from "./hooks/useActiveTab";
 import { useLanguagePreference } from "./hooks/useLanguagePreference";
 import { useThemeMode } from "./hooks/useThemeMode";
+import { AdminPage } from "./pages/AdminPage";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
 import { ProfilePage } from "./pages/ProfilePage";
@@ -11,6 +12,7 @@ import { RitualsPage } from "./pages/RitualsPage";
 import { ServicesPage } from "./pages/ServicesPage";
 import { ShopPage } from "./pages/ShopPage";
 import { TestimonialsPage } from "./pages/TestimonialsPage";
+import { TipsPage } from "./pages/TipsPage";
 import { buildWhatsAppUrl, supportedLanguages } from "./data/siteContent";
 
 function App() {
@@ -34,13 +36,14 @@ function App() {
     [cart],
   );
   const whatsappHref = useMemo(
-    () => buildWhatsAppUrl(content.app.whatsappMessage),
-    [content.app.whatsappMessage],
+    () => buildWhatsAppUrl(content.app.whatsappMessage, content.contactSettings.whatsappNumber),
+    [content.app.whatsappMessage, content.contactSettings.whatsappNumber],
   );
 
   const pages = {
     accueil: <HomePage content={content} />,
     services: <ServicesPage content={content} />,
+    astuces: <TipsPage content={content} />,
     temoignages: <TestimonialsPage content={content} />,
     boutique: (
       <ShopPage
@@ -54,6 +57,7 @@ function App() {
     rituel: <RitualsPage content={content} />,
     profil: <ProfilePage content={content} />,
     contact: <ContactPage content={content} />,
+    admin: <AdminPage content={content} />,
   };
 
   return (

@@ -2,7 +2,7 @@ import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
 import { buildWhatsAppUrl, formatMessageTemplate } from "../../data/siteContent";
 
-export function ServicesSection({ categories, copy, processSteps, services }) {
+export function ServicesSection({ categories, contactSettings, copy, processSteps, services }) {
   return (
     <section className="section-band section-band--white" id="services">
       <div className="section-inner">
@@ -46,6 +46,7 @@ export function ServicesSection({ categories, copy, processSteps, services }) {
                     category: service.category,
                     problem: service.problem,
                   }),
+                  contactSettings?.whatsappNumber,
                 )}
                 target="_blank"
                 rel="noreferrer"

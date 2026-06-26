@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { ADMIN_UPDATED_EVENT, readAdminContent } from "../data/adminContent";
 import { defaultLanguage, getSiteContent, normalizeLanguage } from "../data/siteContent";
 
 const LANGUAGE_STORAGE_KEY = "amangninou.language";
@@ -35,7 +36,11 @@ const getInitialLanguage = () => {
 
 export function useLanguagePreference() {
   const [language, setLanguage] = useState(getInitialLanguage);
-  const content = useMemo(() => getSiteContent(language), [language]);
+  const [contentRevision, setContentRevision] = useState(0);
+  const content = useMemo(
+    () => getSiteContent(language, readAdminContent()),
+    [language, contentRevision],
+  );
 
   useEffect(() => {
     if (!isBrowser()) {
@@ -48,6 +53,22 @@ export function useLanguagePreference() {
       window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
     } catch {}
   }, [language]);
+
+  useEffect(() => {
+    if (!isBrowser()) {
+      return undefined;
+    }
+
+    const refreshContent = () => setContentRevision((current) => current + 1);
+
+    window.addEventListener(ADMIN_UPDATED_EVENT, refreshContent);
+    window.addEventListener("storage", refreshContent);
+
+    return () => {
+      window.removeEventListener(ADMIN_UPDATED_EVENT, refreshContent);
+      window.removeEventListener("storage", refreshContent);
+    };
+  }, []);
 
   const changeLanguage = useCallback((nextLanguage) => {
     setLanguage(normalizeLanguage(nextLanguage));

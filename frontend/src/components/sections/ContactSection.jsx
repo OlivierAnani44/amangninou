@@ -3,14 +3,14 @@ import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
 import { buildWhatsAppUrl } from "../../data/siteContent";
 
-const buildWhatsAppMessage = (options, template, subject, message) => {
+const buildWhatsAppMessage = (options, template, subject, message, whatsappNumber) => {
   const subjectLabel = options.find((option) => option.value === subject)?.label ?? subject;
   const text = template.replace("{subject}", subjectLabel).replace("{message}", message);
 
-  return buildWhatsAppUrl(text);
+  return buildWhatsAppUrl(text, whatsappNumber);
 };
 
-export function ContactSection({ channels, copy, socialLinks = [] }) {
+export function ContactSection({ channels, contactSettings, copy, socialLinks = [] }) {
   const [subject, setSubject] = useState("consultation");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("idle");
@@ -23,6 +23,7 @@ export function ContactSection({ channels, copy, socialLinks = [] }) {
       copy.whatsappText,
       subject,
       message,
+      contactSettings?.whatsappNumber,
     );
     setStatus("idle");
   };

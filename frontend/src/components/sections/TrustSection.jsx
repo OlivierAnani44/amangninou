@@ -2,6 +2,8 @@ import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
 
 export function TrustSection({ copy, testimonials, trustItems }) {
+  const [featuredTestimonial, ...secondaryTestimonials] = testimonials;
+
   return (
     <section className="section-band section-band--soft" id="temoignages">
       <div className="section-inner trust-layout">
@@ -38,7 +40,19 @@ export function TrustSection({ copy, testimonials, trustItems }) {
             <span>{copy.testimonialTitle}</span>
             <p>{copy.testimonialText}</p>
           </div>
-          {testimonials.map((testimonial) => (
+
+          {featuredTestimonial ? (
+            <figure className="testimonial-card testimonial-card--featured" key={featuredTestimonial.name}>
+              <AppIcon name="MessageCircle" size={26} />
+              <blockquote>{featuredTestimonial.quote}</blockquote>
+              <figcaption>
+                <strong>{featuredTestimonial.name}</strong>
+                <span>{featuredTestimonial.context}</span>
+              </figcaption>
+            </figure>
+          ) : null}
+
+          {secondaryTestimonials.map((testimonial) => (
             <figure className="testimonial-card" key={testimonial.name}>
               <blockquote>{testimonial.quote}</blockquote>
               <figcaption>

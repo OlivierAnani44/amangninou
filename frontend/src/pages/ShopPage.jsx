@@ -8,6 +8,7 @@ export function ShopPage({ cartItems, cartPulseKey, content, total, onAddProduct
       <ShopSection
         cartItems={cartItems}
         cartPulseKey={cartPulseKey}
+        contactSettings={content.contactSettings}
         copy={content.shopSection}
         filters={content.productFilters}
         locale={content.locale}

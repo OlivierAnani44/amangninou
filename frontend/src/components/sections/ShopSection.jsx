@@ -3,7 +3,17 @@ import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
 import { buildWhatsAppUrl, formatMessageTemplate, formatPrice } from "../../data/siteContent";
 
-export function ShopSection({ cartItems, cartPulseKey, copy, filters, locale, products, total, onAddProduct }) {
+export function ShopSection({
+  cartItems,
+  cartPulseKey,
+  contactSettings,
+  copy,
+  filters,
+  locale,
+  products,
+  total,
+  onAddProduct,
+}) {
   const [activeFilter, setActiveFilter] = useState(filters[0]);
   const filteredProducts = useMemo(
     () =>
@@ -84,6 +94,7 @@ export function ShopSection({ cartItems, cartPulseKey, copy, filters, locale, pr
                           price: formatPrice(product.price, locale),
                           category: product.category,
                         }),
+                        contactSettings?.whatsappNumber,
                       )}
                       target="_blank"
                       rel="noreferrer"
@@ -130,7 +141,7 @@ export function ShopSection({ cartItems, cartPulseKey, copy, filters, locale, pr
             </div>
             <a
               className="primary-action"
-              href={cartItems.length > 0 ? buildWhatsAppUrl(cartMessage) : "#boutique"}
+              href={cartItems.length > 0 ? buildWhatsAppUrl(cartMessage, contactSettings?.whatsappNumber) : "#boutique"}
               target={cartItems.length > 0 ? "_blank" : undefined}
               rel={cartItems.length > 0 ? "noreferrer" : undefined}
             >
