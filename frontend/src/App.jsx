@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { AppShell } from "./components/AppShell";
 import { SiteFooter } from "./components/sections/SiteFooter";
 import { useActiveTab } from "./hooks/useActiveTab";
+import { useThemeMode } from "./hooks/useThemeMode";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
 import { ProfilePage } from "./pages/ProfilePage";
@@ -21,6 +22,7 @@ function App() {
   const [cart, setCart] = useState([]);
   const [cartPulseKey, setCartPulseKey] = useState(0);
   const activeTab = useActiveTab(navigationItems);
+  const { isDarkMode, themeMode, toggleThemeMode } = useThemeMode();
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   const toggleMenu = useCallback(() => setMenuOpen((current) => !current), []);
@@ -59,8 +61,11 @@ function App() {
       navigationItems={navigationItems}
       primaryTabIds={primaryTabIds}
       secondaryNavigationItems={secondaryNavigationItems}
+      isDarkMode={isDarkMode}
+      themeMode={themeMode}
       whatsappHref={contactChannels[0].href}
       onCloseMenu={closeMenu}
+      onToggleTheme={toggleThemeMode}
       onToggleMenu={toggleMenu}
     >
       <main className="tab-page" key={activeTab}>

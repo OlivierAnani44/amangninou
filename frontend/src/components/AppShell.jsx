@@ -8,8 +8,11 @@ export function AppShell({
   navigationItems,
   primaryTabIds,
   secondaryNavigationItems,
+  isDarkMode,
+  themeMode,
   whatsappHref,
   onCloseMenu,
+  onToggleTheme,
   onToggleMenu,
 }) {
   const primaryTabItems = navigationItems.filter((item) => primaryTabIds.includes(item.id));
@@ -63,6 +66,17 @@ export function AppShell({
         </a>
 
         <button
+          className="icon-button theme-toggle"
+          type="button"
+          aria-label={isDarkMode ? "Activer le mode clair" : "Activer le mode sombre"}
+          aria-pressed={isDarkMode}
+          title={isDarkMode ? "Mode clair" : "Mode sombre"}
+          onClick={onToggleTheme}
+        >
+          <AppIcon name={isDarkMode ? "Sun" : "Moon"} size={22} />
+        </button>
+
+        <button
           className="icon-button menu-toggle"
           type="button"
           aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
@@ -86,6 +100,16 @@ export function AppShell({
           </span>
           <strong>Amangninou</strong>
         </div>
+
+        <button
+          className="menu-theme-toggle"
+          type="button"
+          aria-pressed={isDarkMode}
+          onClick={onToggleTheme}
+        >
+          <AppIcon name={isDarkMode ? "Sun" : "Moon"} size={18} />
+          <span>{themeMode === "dark" ? "Mode clair" : "Mode sombre"}</span>
+        </button>
 
         <nav className="menu-list" aria-label="Navigation mobile">
           {secondaryNavigationItems.map((item, index) => (
