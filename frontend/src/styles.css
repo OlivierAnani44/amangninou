@@ -424,6 +424,8 @@ button:disabled {
 .contact-link:focus-visible,
 .desktop-nav a:focus-visible,
 .menu-list a:focus-visible,
+.contact-socials a:focus-visible,
+.footer-socials a:focus-visible,
 .bottom-tabbar a:focus-visible,
 .floating-whatsapp:focus-visible,
 .primary-action:focus-visible,
@@ -2194,6 +2196,42 @@ textarea {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.contact-socials {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1;
+  gap: 0.65rem;
+}
+
+.contact-socials a,
+.footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  border-radius: var(--radius);
+  font-weight: 850;
+  line-height: 1.1;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.contact-socials a {
+  min-width: 132px;
+  padding: 0 0.85rem;
+  border: 1px solid rgba(122, 58, 151, 0.22);
+  color: var(--color-violet);
+  background: var(--color-violet-soft);
+}
+
+.contact-socials a:hover,
+.footer-socials a:hover {
+  transform: translateY(-1px);
+}
+
 .contact-card {
   display: grid;
   gap: 0.35rem;
@@ -2278,6 +2316,18 @@ textarea {
   max-width: 620px;
   margin: 0;
   color: rgba(255, 255, 255, 0.78);
+}
+
+.footer-socials {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.footer-socials a {
+  width: 44px;
+  color: #123f21;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: #ffffff;
 }
 
 @media (min-width: 760px) {

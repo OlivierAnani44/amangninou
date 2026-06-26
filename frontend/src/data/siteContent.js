@@ -1,7 +1,7 @@
 export const supportedLanguages = [
   { code: "fr", label: "Français", shortLabel: "FR", locale: "fr-FR" },
   { code: "en", label: "English", shortLabel: "EN", locale: "en-US" },
-  { code: "pt", label: "Português", shortLabel: "PT", locale: "pt-PT" },
+  { code: "es", label: "Español", shortLabel: "ES", locale: "es-ES" },
 ];
 
 export const defaultLanguage = "fr";
@@ -31,10 +31,27 @@ const ownerImage = {
   initials: "TA",
 };
 
+const whatsappNumber = "22870515141";
+const phoneDisplay = "+228 70 51 51 41";
+const ownerEmail = "togbeamangninou0@gmail.com";
+
 const contactChannels = [
-  { id: "whatsapp", value: "+229 00 00 00 00", href: "https://wa.me/22900000000", icon: "MessageCircle" },
-  { id: "phone", value: "+229 00 00 00 00", href: "tel:+22900000000", icon: "Phone" },
-  { id: "email", value: "contact@amangninou.app", href: "mailto:contact@amangninou.app", icon: "Mail" },
+  { id: "whatsapp", value: phoneDisplay, href: `https://wa.me/${whatsappNumber}`, icon: "BrandWhatsapp" },
+  { id: "phone", value: phoneDisplay, href: `tel:+${whatsappNumber}`, icon: "Phone" },
+  { id: "email", value: ownerEmail, href: `mailto:${ownerEmail}`, icon: "Mail" },
+];
+
+const socialLinks = [
+  {
+    id: "youtube",
+    href: "https://m.youtube.com/channel/UCVZH80MU774K2ROUuXFwYsA",
+    icon: "BrandYoutube",
+  },
+  {
+    id: "tiktok",
+    href: "https://www.tiktok.com/@togbe.amangninou8",
+    icon: "BrandTikTok",
+  },
 ];
 
 const baseServices = [
@@ -76,6 +93,7 @@ const dictionaries = {
       enableDarkMode: "Activer le mode sombre",
       contact: "Contact",
       whatsapp: "Contacter sur WhatsApp",
+      whatsappMessage: "Bonjour, je souhaite avoir des informations sur les services de Togbe Amangninou.",
       mainTabs: "Onglets principaux",
       mainNavigation: "Navigation principale",
       mobileNavigation: "Navigation mobile",
@@ -180,6 +198,7 @@ const dictionaries = {
       description: "Les services sont présentés par besoin pour vous aider à savoir rapidement où commencer.",
       categoryLabel: "Catégories de services",
       action: "Demander conseil",
+      whatsappText: "Bonjour, je souhaite demander conseil pour le service : {service}.\nCatégorie : {category}\nProblème : {problem}",
       processEyebrow: "Parcours",
       processTitle: "Comment ça se passe ?",
       processDescription: "Un parcours simple en trois temps pour éviter les décisions floues.",
@@ -264,13 +283,15 @@ const dictionaries = {
       title: "Produits spirituels et traditionnels",
       description: "Filtrez par besoin, vérifiez les précautions et ajoutez au panier uniquement ce qui vous intéresse.",
       filtersLabel: "Filtres boutique",
-      add: "Ajouter",
+      add: "Acheter",
       cart: "Panier",
       article: "article",
       articles: "articles",
       emptyCart: "Aucun produit ajouté pour le moment.",
       total: "Total indicatif",
-      checkout: "Finaliser par contact",
+      checkout: "Finaliser sur WhatsApp",
+      buyProductText: "Bonjour, je veux acheter : {product}.\nPrix : {price}\nCatégorie : {category}",
+      checkoutText: "Bonjour, je veux acheter ces produits :\n{items}\nTotal indicatif : {total}",
     },
     productFilters: ["Tous", "Plantes", "Protection", "Rituels", "Bien-être"],
     products: {
@@ -308,6 +329,7 @@ const dictionaries = {
       title: "Fa, Dan, Sakpata, Hebiesso et autres traditions",
       description: "Chaque rituel est présenté avec sobriété, sans folklorisation, et avec une orientation vers un échange encadré.",
       action: "Demander une consultation",
+      whatsappText: "Bonjour, je souhaite demander une consultation pour le rituel : {ritual}.\nSujet : {subtitle}",
     },
     rituals: {
       fa: {
@@ -466,6 +488,7 @@ const dictionaries = {
       phone: "Téléphone",
       email: "Email",
     },
+    socialLinks: { youtube: "YouTube", tiktok: "TikTok" },
     footer: "Spiritualité africaine, plantes traditionnelles et accompagnement responsable. Les informations de bien-être ne remplacent pas un avis médical.",
   },
   en: {
@@ -482,6 +505,7 @@ const dictionaries = {
       enableDarkMode: "Enable dark mode",
       contact: "Contact",
       whatsapp: "Contact on WhatsApp",
+      whatsappMessage: "Hello, I would like information about Togbe Amangninou's services.",
       mainTabs: "Main tabs",
       mainNavigation: "Main navigation",
       mobileNavigation: "Mobile navigation",
@@ -550,6 +574,7 @@ const dictionaries = {
       description: "Services are presented by need to help you know where to start quickly.",
       categoryLabel: "Service categories",
       action: "Ask for advice",
+      whatsappText: "Hello, I would like advice for the service: {service}.\nCategory: {category}\nNeed: {problem}",
       processEyebrow: "Process",
       processTitle: "How does it work?",
       processDescription: "A simple three-step path to avoid unclear decisions.",
@@ -592,13 +617,15 @@ const dictionaries = {
       title: "Spiritual and traditional products",
       description: "Filter by need, check precautions and add to the cart only what interests you.",
       filtersLabel: "Shop filters",
-      add: "Add",
+      add: "Buy",
       cart: "Cart",
       article: "item",
       articles: "items",
       emptyCart: "No product added yet.",
       total: "Indicative total",
-      checkout: "Finalize by contact",
+      checkout: "Finalize on WhatsApp",
+      buyProductText: "Hello, I want to buy: {product}.\nPrice: {price}\nCategory: {category}",
+      checkoutText: "Hello, I want to buy these products:\n{items}\nIndicative total: {total}",
     },
     productFilters: ["All", "Plants", "Protection", "Rituals", "Well-being"],
     products: {
@@ -612,6 +639,7 @@ const dictionaries = {
       title: "Fa, Dan, Sakpata, Hebiesso and other traditions",
       description: "Each ritual is presented soberly, without folklorization, and with guidance toward a supervised exchange.",
       action: "Request a consultation",
+      whatsappText: "Hello, I would like to request a consultation for the ritual: {ritual}.\nTopic: {subtitle}",
     },
     rituals: {
       fa: { name: "Fa", subtitle: "Geomancy and guidance", tone: "Guidance", details: ["Question asked", "Guided reading", "Clear decision"], text: "Traditional reading used to clarify a situation, understand a blockage and choose a direction." },
@@ -731,6 +759,7 @@ const dictionaries = {
       ],
     },
     contactChannels: { whatsapp: "WhatsApp", phone: "Phone", email: "Email" },
+    socialLinks: { youtube: "YouTube", tiktok: "TikTok" },
     footer: "African spirituality, traditional plants and responsible guidance. Well-being information does not replace medical advice.",
   },
   pt: {
@@ -747,6 +776,7 @@ const dictionaries = {
       enableDarkMode: "Ativar modo escuro",
       contact: "Contacto",
       whatsapp: "Contactar pelo WhatsApp",
+      whatsappMessage: "Olá, gostaria de receber informações sobre os serviços de Togbe Amangninou.",
       mainTabs: "Separadores principais",
       mainNavigation: "Navegação principal",
       mobileNavigation: "Navegação móvel",
@@ -815,6 +845,7 @@ const dictionaries = {
       description: "Os serviços são apresentados por necessidade para ajudar a saber por onde começar.",
       categoryLabel: "Categorias de serviços",
       action: "Pedir conselho",
+      whatsappText: "Olá, gostaria de pedir conselho para o serviço: {service}.\nCategoria: {category}\nNecessidade: {problem}",
       processEyebrow: "Percurso",
       processTitle: "Como funciona?",
       processDescription: "Um percurso simples em três tempos para evitar decisões confusas.",
@@ -857,13 +888,15 @@ const dictionaries = {
       title: "Produtos espirituais e tradicionais",
       description: "Filtre por necessidade, verifique as precauções e adicione ao carrinho apenas o que lhe interessa.",
       filtersLabel: "Filtros da loja",
-      add: "Adicionar",
+      add: "Comprar",
       cart: "Carrinho",
       article: "artigo",
       articles: "artigos",
       emptyCart: "Nenhum produto adicionado por enquanto.",
       total: "Total indicativo",
-      checkout: "Finalizar por contacto",
+      checkout: "Finalizar no WhatsApp",
+      buyProductText: "Olá, quero comprar: {product}.\nPreço: {price}\nCategoria: {category}",
+      checkoutText: "Olá, quero comprar estes produtos:\n{items}\nTotal indicativo: {total}",
     },
     productFilters: ["Todos", "Plantas", "Proteção", "Rituais", "Bem-estar"],
     products: {
@@ -877,6 +910,7 @@ const dictionaries = {
       title: "Fa, Dan, Sakpata, Hebiesso e outras tradições",
       description: "Cada ritual é apresentado com sobriedade, sem folclorização, e com orientação para uma conversa enquadrada.",
       action: "Pedir consulta",
+      whatsappText: "Olá, gostaria de pedir uma consulta para o ritual: {ritual}.\nTema: {subtitle}",
     },
     rituals: {
       fa: { name: "Fa", subtitle: "Geomancia e orientação", tone: "Orientação", details: ["Pergunta feita", "Leitura guiada", "Decisão esclarecida"], text: "Leitura tradicional usada para esclarecer uma situação, compreender um bloqueio e escolher uma direção." },
@@ -996,8 +1030,281 @@ const dictionaries = {
       ],
     },
     contactChannels: { whatsapp: "WhatsApp", phone: "Telefone", email: "Email" },
+    socialLinks: { youtube: "YouTube", tiktok: "TikTok" },
     footer: "Espiritualidade africana, plantas tradicionais e acompanhamento responsável. As informações de bem-estar não substituem aconselhamento médico.",
   },
+};
+
+dictionaries.es = {
+  locale: "es-ES",
+  app: {
+    languageLabel: "Idioma",
+    languageAria: "Elegir idioma",
+    currentLanguage: "Idioma actual",
+    openMenu: "Abrir menú",
+    closeMenu: "Cerrar menú",
+    lightMode: "Modo claro",
+    darkMode: "Modo oscuro",
+    enableLightMode: "Activar modo claro",
+    enableDarkMode: "Activar modo oscuro",
+    contact: "Contacto",
+    whatsapp: "Contactar por WhatsApp",
+    whatsappMessage: "Hola, deseo recibir información sobre los servicios de Togbe Amangninou.",
+    mainTabs: "Pestañas principales",
+    mainNavigation: "Navegación principal",
+    mobileNavigation: "Navegación móvil",
+  },
+  navigation: {
+    accueil: "Inicio",
+    services: "Servicios",
+    temoignages: "Confianza",
+    boutique: "Tienda",
+    rituel: "Rituales",
+    profil: "Perfil",
+    contact: "Contacto",
+    securite: "Seguridad",
+    mentions: "Avisos",
+    parametres: "Ajustes",
+  },
+  pageIntros: {
+    services: { eyebrow: "Servicios", title: "Acompañamiento espiritual", description: "Las necesidades se organizan claramente para encontrar el intercambio adecuado sin confusión.", icon: "ShieldCheck", action: "Pedir consejo" },
+    temoignages: { eyebrow: "Confianza", title: "Pruebas y experiencias", description: "Experiencias, reglas de prudencia y pruebas presentadas sin promesas automáticas.", icon: "BadgeCheck", action: "Hacer una pregunta" },
+    boutique: { eyebrow: "Tienda", title: "Tienda tradicional", description: "Categorías simples, precauciones claras y un carrito legible antes de cualquier pedido.", icon: "ShoppingBag", action: "Ver productos" },
+    rituel: { eyebrow: "Rituales", title: "Rituales Vodou africanos", description: "Fa, Dan, Sakpata y Hebiesso se presentan con sobriedad, contexto y orientación.", icon: "BookOpenText", action: "Pedir una consulta" },
+    profil: { eyebrow: "Perfil", title: "Espacio de perfil", description: "Cuenta opcional, notificaciones elegidas, seguridad reforzada y ajustes simples.", icon: "UserRound", action: "Configurar perfil" },
+    contact: { eyebrow: "Contacto", title: "Contacto discreto", description: "Un mensaje claro ayuda a orientar la solicitud antes de cualquier consulta o pedido.", icon: "MessageCircle", action: "Escribir por WhatsApp" },
+  },
+  hero: {
+    eyebrow: "Espiritualidad africana, plantas y acompañamiento",
+    title: "Togbe Amangninou",
+    text: "Un espacio móvil simple para pedir consejo, descubrir rituales Vodou africanos y elegir productos tradicionales con prudencia.",
+    primaryAction: "Servicios",
+    secondaryAction: "Ver la tienda",
+    highlightsLabel: "Puntos fuertes",
+    mediaLabel: "Retrato de Togbe Amangninou",
+    ownerPhotoLabel: "Foto del propietario",
+    ownerAlt: "Retrato de Togbe Amangninou",
+  },
+  heroStats: [
+    { value: "24h", label: "respuesta prioritaria" },
+    { value: "Seguridad", label: "cuenta protegida" },
+  ],
+  ownerProfile: {
+    name: "Togbe Amangninou",
+    role: "Propietario del sitio",
+    specialty: "Espiritualidad africana, plantas tradicionales y acompañamiento discreto",
+  },
+  serviceHighlights: ["Contacto discreto", "Cuenta opcional", "Tienda segura"],
+  quickProofs: [
+    { title: "Contacto discreto", icon: "MessageCircle", text: "Un primer intercambio simple, sin registro obligatorio." },
+    { title: "Cuenta opcional", icon: "UserRound", text: "El perfil ayuda al seguimiento, pero el contenido sigue accesible." },
+    { title: "Tienda segura", icon: "ShoppingBag", text: "Productos, precauciones y carrito se mantienen claros antes del pedido." },
+  ],
+  home: {
+    exploreEyebrow: "Explorar",
+    exploreTitle: "Acceso rápido a los espacios",
+    exploreDescription: "Acceda rápidamente a servicios, productos tradicionales, rituales o a su espacio de seguimiento.",
+  },
+  serviceCategories: [
+    { label: "Espiritualidad", icon: "Sparkles" },
+    { label: "Pareja", icon: "HeartHandshake" },
+    { label: "Protección", icon: "ShieldCheck" },
+    { label: "Plantas", icon: "Leaf" },
+    { label: "Geomancia", icon: "Rows3" },
+  ],
+  servicesSection: {
+    eyebrow: "Servicios",
+    title: "Un recorrido claro antes de cada acompañamiento",
+    description: "Los servicios se presentan por necesidad para ayudarle a saber rápidamente por dónde empezar.",
+    categoryLabel: "Categorías de servicios",
+    action: "Pedir consejo",
+    whatsappText: "Hola, deseo pedir consejo para el servicio: {service}.\nCategoría: {category}\nNecesidad: {problem}",
+    processEyebrow: "Recorrido",
+    processTitle: "¿Cómo funciona?",
+    processDescription: "Un recorrido simple en tres pasos para evitar decisiones confusas.",
+  },
+  processSteps: [
+    { title: "Contacto", icon: "MessageCircle", text: "Usted explica su situación y elige el canal más discreto." },
+    { title: "Orientación", icon: "Compass", text: "La solicitud se aclara antes de proponer una consulta, un ritual o un producto." },
+    { title: "Seguimiento", icon: "CalendarClock", text: "La cuenta y los recordatorios se usan solo si desea conservar un historial." },
+  ],
+  services: {
+    consultation: { title: "Consulta espiritual", label: "Diagnóstico", category: "Espiritualidad", problem: "Comprender una situación confusa", description: "Intercambio confidencial para comprender la situación, hacer las preguntas correctas y orientar hacia un acompañamiento adecuado.", points: ["Análisis de la necesidad", "Consejo personalizado", "Seguimiento claro"] },
+    protection: { title: "Protección y purificación", label: "Ritual", category: "Protección", problem: "Purificar un lugar o reforzar una protección", description: "Acompañamiento tradicional para purificar un lugar, reforzar la protección personal o preparar una etapa espiritual.", points: ["Casa", "Trabajo", "Protección personal"] },
+    couple: { title: "Pareja y afecto", label: "Relación", category: "Pareja", problem: "Calmar bloqueos afectivos", description: "Escucha y orientación sobre bloqueos afectivos, tensiones de pareja y situaciones familiares sensibles.", points: ["Diálogo", "Calma", "Estabilidad"] },
+    plants: { title: "Plantas tradicionales", label: "Bienestar", category: "Plantas", problem: "Elegir una preparación con prudencia", description: "Presentación de plantas y preparaciones tradicionales usadas para el bienestar general, con consejos de prudencia.", points: ["Baños", "Infusiones", "Aceites"] },
+    fa: { title: "Geomancia Fa", label: "Orientación", category: "Geomancia", problem: "Aclarar una decisión importante", description: "Lectura tradicional para aclarar una decisión, comprender un bloqueo y elegir un camino con más perspectiva.", points: ["Preguntas", "Lectura", "Orientación"] },
+    support: { title: "Acompañamiento discreto", label: "Seguimiento", category: "Espiritualidad", problem: "Mantener un hilo claro después del primer intercambio", description: "Canal de contacto claro, recordatorios, seguimiento de solicitudes e historial personal si decide crear una cuenta.", points: ["Recordatorios", "Notificaciones", "Historial"] },
+  },
+  trustSection: {
+    eyebrow: "Confianza",
+    title: "¿Por qué confiar en nosotros?",
+    description: "El sitio valora las experiencias, la transparencia y los límites claros antes de cualquier paso.",
+    featureTitle: "Un enfoque responsable",
+    featureText: "La información está organizada para ayudar a comprender, comparar y hacer las preguntas correctas, sin garantía automática de resultado.",
+    testimonialTitle: "Experiencias",
+    testimonialText: "Estos testimonios no son garantías, sino experiencias compartidas.",
+    healthNote: "Las plantas y preparaciones tradicionales se presentan como información de bienestar. No sustituyen a un médico, diagnóstico o tratamiento prescrito.",
+  },
+  trustItems: [
+    { title: "Transparencia", icon: "BadgeCheck", text: "Las etapas se explican antes de cualquier compromiso. El sitio evita promesas imposibles y garantías abusivas." },
+    { title: "Pruebas verificables", icon: "FileCheck2", text: "Los testimonios se presentan como experiencias, anonimizados y separados de la información de venta." },
+    { title: "Respeto por la salud", icon: "Cross", text: "Las plantas se presentan para el bienestar tradicional y no sustituyen a un médico o tratamiento prescrito." },
+  ],
+  testimonials: [
+    { name: "A. K.", context: "Acompañamiento personal", quote: "Aprecié la claridad del intercambio y el seguimiento. Las etapas eran simples de entender y me sentí respetado." },
+    { name: "M. D.", context: "Consejo sobre la pareja", quote: "La consulta me ayudó a tomar distancia. El contacto siguió siendo discreto, con recordatorios útiles después del primer intercambio." },
+    { name: "S. F.", context: "Producto tradicional", quote: "La tienda explica bien el uso recomendado y las precauciones. Pude hacer preguntas antes de pedir." },
+  ],
+  shopSection: {
+    eyebrow: "Tienda",
+    title: "Productos espirituales y tradicionales",
+    description: "Filtre por necesidad, revise las precauciones y añada al carrito solo lo que le interesa.",
+    filtersLabel: "Filtros de tienda",
+    add: "Comprar",
+    cart: "Carrito",
+    article: "artículo",
+    articles: "artículos",
+    emptyCart: "Aún no se ha añadido ningún producto.",
+    total: "Total indicativo",
+    checkout: "Finalizar por WhatsApp",
+    buyProductText: "Hola, quiero comprar: {product}.\nPrecio: {price}\nCategoría: {category}",
+    checkoutText: "Hola, quiero comprar estos productos:\n{items}\nTotal indicativo: {total}",
+  },
+  productFilters: ["Todos", "Plantas", "Protección", "Rituales", "Bienestar"],
+  products: {
+    "purification-maison": { name: "Pack purificación del hogar", category: "Protección", filter: "Rituales", badges: ["Producto tradicional", "Consejos incluidos", "Uso prudente"], description: "Conjunto tradicional para purificar un espacio de vida con una ficha de consejos y precauciones." },
+    "bain-protection": { name: "Baño de protección", category: "Ritual", filter: "Rituales", badges: ["Producto tradicional", "Consejos incluidos"], description: "Preparación ritual destinada a procesos de protección personal y recentrado." },
+    "infusion-bien-etre": { name: "Infusión bienestar", category: "Plantas", filter: "Plantas", badges: ["Uso prudente", "Bienestar"], description: "Mezcla tradicional de plantas para acompañar una rutina de bienestar, con uso prudente." },
+    "encens-rituel": { name: "Incienso ritual", category: "Ambiente", filter: "Bienestar", badges: ["Producto tradicional", "Bienestar"], description: "Incienso para tiempos de oración, purificación simbólica y preparación espiritual." },
+  },
+  ritualsSection: {
+    eyebrow: "Rituales",
+    title: "Fa, Dan, Sakpata, Hebiesso y otras tradiciones",
+    description: "Cada ritual se presenta con sobriedad, sin folklorización, y con orientación hacia un intercambio acompañado.",
+    action: "Pedir una consulta",
+    whatsappText: "Hola, deseo pedir una consulta para el ritual: {ritual}.\nTema: {subtitle}",
+  },
+  rituals: {
+    fa: { name: "Fa", subtitle: "Geomancia y orientación", tone: "Orientación", details: ["Pregunta planteada", "Lectura guiada", "Decisión aclarada"], text: "Lectura tradicional usada para aclarar una situación, comprender un bloqueo y elegir una dirección." },
+    dan: { name: "Dan", subtitle: "Equilibrio y fuerza vital", tone: "Equilibrio", details: ["Fuerza vital", "Continuidad", "Estabilidad"], text: "Simbología vinculada al movimiento, al equilibrio y a la continuidad en varias tradiciones Vodou africanas." },
+    sakpata: { name: "Sakpata", subtitle: "Tierra, protección, responsabilidad", tone: "Protección", details: ["Tierra", "Responsabilidad", "Acompañamiento"], text: "Ritual presentado con respeto, recordando la importancia del acompañamiento tradicional y la prudencia." },
+    hebiesso: { name: "Hebiesso", subtitle: "Fuego, justicia, decisión", tone: "Decisión", details: ["Fuerza", "Verdad", "Claridad"], text: "Referencia espiritual asociada a la fuerza, la verdad y la energía de decisión." },
+    other: { name: "Otros rituales", subtitle: "Según la situación", tone: "Personalización", details: ["Escucha", "Necesidad real", "Orientación"], text: "El acompañamiento depende de la necesidad, de la historia personal y de la orientación dada durante la consulta." },
+  },
+  profileSection: {
+    eyebrow: "Perfil",
+    title: "Cuenta opcional, ajustes útiles",
+    description: "Cree un perfil si desea guardar preferencias, activar recordatorios y proteger el acceso.",
+    panelAria: "Cuenta de usuario",
+    profileName: "Perfil Amangninou",
+    connectedSince: "Conectado desde el {date}",
+    loginRequired: "Inicie sesión para modificar la información",
+    optionalAccount: "Cuenta opcional para guardar preferencias",
+    stateAria: "Estado del perfil",
+    connected: "Conectado",
+    offline: "Sin conexión",
+    new: "Nuevo",
+    active: "activa",
+    inactive: "inactiva",
+    createAccount: "Crear una cuenta",
+    editProfile: "Modificar perfil",
+    login: "Iniciar sesión",
+    fullName: "Nombre completo",
+    fullNamePlaceholder: "Su nombre",
+    contact: "Contacto",
+    emailOptional: "Email (opcional)",
+    emailPlaceholder: "nombre@example.com, opcional",
+    preferredChannel: "Canal preferido",
+    phoneChannel: "Teléfono",
+    password: "Contraseña",
+    passwordPlaceholder: "Mínimo 6 caracteres",
+    confirmation: "Confirmación",
+    repeatPassword: "Repetir la contraseña",
+    reminders: "Activar recordatorios",
+    updates: "Recibir actualizaciones",
+    twoFactor: "Activar código 2FA",
+    personalCode: "Código 2FA personal",
+    sixDigits: "6 dígitos",
+    createProfile: "Crear perfil",
+    loginIdentifier: "Contacto o email",
+    loginIdentifierPlaceholder: "Su contacto o email",
+    currentPassword: "Su contraseña",
+    signIn: "Conectarse",
+    remindersShort: "Recordatorios",
+    updatesShort: "Actualizaciones",
+    promotions: "Publicidad",
+    twoFactorFull: "Autenticación de dos factores",
+    newCodeOptional: "Nuevo código opcional",
+    chooseSixDigitCode: "Elegir un código de 6 dígitos",
+    newPassword: "Nueva contraseña",
+    optional: "Opcional",
+    save: "Guardar",
+    logout: "Cerrar sesión",
+    deleteProfile: "Eliminar perfil",
+    confirmDelete: "Confirmar eliminación",
+    note: "La información del perfil se guarda en este dispositivo. El contenido del sitio sigue accesible sin cuenta.",
+    notificationsAria: "Notificaciones",
+    enabled: "Activa",
+    disabled: "Inactiva",
+    securityTitle: "Seguridad y protección",
+    sessionClosed: "Sesión cerrada.",
+    deletePrompt: "Pulse una segunda vez para eliminar el perfil de este dispositivo.",
+    deleted: "Perfil eliminado de este dispositivo.",
+  },
+  profileMessages: {
+    storageUnavailable: "El almacenamiento del navegador no está disponible.",
+    fullNameRequired: "El nombre completo es obligatorio.",
+    contactRequired: "El contacto es obligatorio.",
+    invalidEmail: "La dirección de email no es válida.",
+    passwordTooShort: "La contraseña debe contener al menos 6 caracteres.",
+    passwordMismatch: "Las dos contraseñas no coinciden.",
+    invalidTwoFactor: "El código 2FA debe contener exactamente 6 dígitos.",
+    actionFailed: "La acción no es posible en este momento.",
+    accountExists: "Ya existe un perfil en este dispositivo.",
+    accountCreated: "Cuenta creada y conectada.",
+    noAccount: "Aún no existe ningún perfil en este dispositivo.",
+    invalidLogin: "Contacto o email incorrecto.",
+    invalidPassword: "Contraseña incorrecta.",
+    invalidTwoFactorLogin: "Código 2FA incorrecto.",
+    loginSuccess: "Conexión realizada.",
+    loginToEdit: "Inicie sesión para modificar el perfil.",
+    profileUpdated: "Perfil actualizado.",
+  },
+  profileFeatures: [
+    { title: "Cuenta opcional", text: "Puede consultar el sitio sin cuenta y crear un perfil solo si lo necesita." },
+    { title: "Información personal", text: "Nombre, contacto, preferencias de notificación e historial de solicitudes siguen siendo modificables." },
+    { title: "Autenticación de dos factores", text: "Una verificación adicional está prevista para reforzar la seguridad de la cuenta." },
+  ],
+  notifications: [
+    { id: "welcome", title: "Bienvenida", icon: "BellRing", text: "Mensaje de bienvenida después del registro o primer contacto.", preferenceKey: "updatesEnabled" },
+    { id: "reminders", title: "Recordatorios", icon: "CalendarClock", text: "Recordatorios de consulta, seguimiento y pedidos.", preferenceKey: "remindersEnabled" },
+    { id: "updates", title: "Actualizaciones", icon: "Megaphone", text: "Nueva información, consejos útiles y promociones.", preferenceKey: "updatesEnabled" },
+  ],
+  securityItems: ["Cifrado previsto para datos sensibles", "Protección contra fraudes y abusos", "Ninguna promesa automática de resultado", "Consentimiento claro para notificaciones y cuenta"],
+  contactSection: {
+    eyebrow: "Contacto",
+    title: "Un primer intercambio antes de cualquier paso",
+    description: "Haga su pregunta, pida una consulta o verifique un producto antes de comprar.",
+    needLabel: "Su necesidad",
+    messageLabel: "Mensaje",
+    messagePlaceholder: "Explique brevemente su solicitud",
+    loading: "Enviando...",
+    submit: "Preparar mensaje",
+    success: "Solicitud preparada con éxito.",
+    error: "El mensaje no pudo enviarse. Intente de nuevo o use WhatsApp.",
+    fetchError: "La solicitud no pudo enviarse",
+    whatsappText: "Hola, deseo recibir información.\nNecesidad: {subject}\nMensaje: {message}",
+    options: [
+      { value: "consultation", label: "Consulta espiritual" },
+      { value: "boutique", label: "Pregunta sobre la tienda" },
+      { value: "rituel", label: "Información sobre un ritual" },
+      { value: "profil", label: "Cuenta o seguridad" },
+    ],
+  },
+  contactChannels: { whatsapp: "WhatsApp", phone: "Teléfono", email: "Email" },
+  socialLinks: { youtube: "YouTube", tiktok: "TikTok" },
+  footer: "Espiritualidad africana, plantas tradicionales y acompañamiento responsable. La información de bienestar no sustituye el consejo médico.",
 };
 
 const withAction = (intro, href) => ({
@@ -1005,18 +1312,38 @@ const withAction = (intro, href) => ({
   action: { label: intro.action, href, icon: intro.icon === "ShoppingBag" ? "ShoppingBag" : "MessageCircle" },
 });
 
-const pageIntroHrefs = {
-  services: "#contact",
-  temoignages: "#contact",
-  boutique: "#boutique",
-  rituel: "#contact",
-  profil: "#profil",
-  contact: "https://wa.me/22900000000",
+export const formatMessageTemplate = (template, replacements) =>
+  Object.entries(replacements).reduce(
+    (message, [key, value]) => message.replaceAll(`{${key}}`, String(value ?? "")),
+    template,
+  );
+
+export const buildWhatsAppUrl = (message = "") => {
+  const text = String(message ?? "").trim();
+  const query = text ? `?text=${encodeURIComponent(text)}` : "";
+
+  return `https://wa.me/${whatsappNumber}${query}`;
+};
+
+const getPageIntroHref = (key, dictionary) => {
+  if (key === "boutique") {
+    return "#boutique";
+  }
+
+  if (key === "profil") {
+    return "#profil";
+  }
+
+  return buildWhatsAppUrl(dictionary.app.whatsappMessage);
 };
 
 export const normalizeLanguage = (languageCode) => {
   const shortCode = String(languageCode ?? "").split("-")[0].toLowerCase();
-  return supportedLanguages.some((language) => language.code === shortCode) ? shortCode : defaultLanguage;
+  const normalizedCode = shortCode === "pt" ? "es" : shortCode;
+
+  return supportedLanguages.some((language) => language.code === normalizedCode)
+    ? normalizedCode
+    : defaultLanguage;
 };
 
 const makeNavigation = (labels, baseItems) =>
@@ -1046,16 +1373,25 @@ const makeRituals = (dictionary) =>
 const makeChannels = (dictionary) =>
   contactChannels.map((channel) => ({
     ...channel,
+    href: channel.id === "whatsapp" ? buildWhatsAppUrl(dictionary.app.whatsappMessage) : channel.href,
     label: dictionary.contactChannels[channel.id],
+  }));
+
+const makeSocialLinks = (dictionary) =>
+  socialLinks.map((link) => ({
+    ...link,
+    label: dictionary.socialLinks[link.id],
   }));
 
 export const getSiteContent = (languageCode = defaultLanguage) => {
   const language = normalizeLanguage(languageCode);
   const dictionary = dictionaries[language] ?? dictionaries[defaultLanguage];
+  const contactChannelsForLanguage = makeChannels(dictionary);
+  const socialLinksForLanguage = makeSocialLinks(dictionary);
   const pageIntros = Object.fromEntries(
     Object.entries(dictionary.pageIntros).map(([key, intro]) => [
       key,
-      withAction(intro, pageIntroHrefs[key]),
+      withAction(intro, getPageIntroHref(key, dictionary)),
     ]),
   );
 
@@ -1091,7 +1427,12 @@ export const getSiteContent = (languageCode = defaultLanguage) => {
     notifications: dictionary.notifications,
     securityItems: dictionary.securityItems,
     contactSection: dictionary.contactSection,
-    contactChannels: makeChannels(dictionary),
+    contactChannels: contactChannelsForLanguage,
+    socialLinks: socialLinksForLanguage,
+    footerLinks: [
+      ...socialLinksForLanguage,
+      ...contactChannelsForLanguage.filter((channel) => ["whatsapp", "email"].includes(channel.id)),
+    ],
     footer: dictionary.footer,
   };
 };

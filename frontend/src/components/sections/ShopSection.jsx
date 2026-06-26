@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
-import { formatPrice } from "../../data/siteContent";
+import { buildWhatsAppUrl, formatMessageTemplate, formatPrice } from "../../data/siteContent";
 
 export function ShopSection({ cartItems, cartPulseKey, copy, filters, locale, products, total, onAddProduct }) {
   const [activeFilter, setActiveFilter] = useState(filters[0]);
@@ -17,6 +17,16 @@ export function ShopSection({ cartItems, cartPulseKey, copy, filters, locale, pr
       cartItems.map((item) => products.find((product) => product.id === item.id) ?? item),
     [cartItems, products],
   );
+  const cartMessage = useMemo(() => {
+    const items = translatedCartItems
+      .map((item) => `- ${item.name} : ${formatPrice(item.price, locale)}`)
+      .join("\n");
+
+    return formatMessageTemplate(copy.checkoutText, {
+      items,
+      total: formatPrice(total, locale),
+    });
+  }, [copy.checkoutText, locale, total, translatedCartItems]);
   const cartCount = cartItems.length;
 
   useEffect(() => {
@@ -66,10 +76,22 @@ export function ShopSection({ cartItems, cartPulseKey, copy, filters, locale, pr
                   </div>
                   <div className="product-footer">
                     <strong>{formatPrice(product.price, locale)}</strong>
-                    <button type="button" className="compact-action" onClick={() => onAddProduct(product)}>
+                    <a
+                      className="compact-action"
+                      href={buildWhatsAppUrl(
+                        formatMessageTemplate(copy.buyProductText, {
+                          product: product.name,
+                          price: formatPrice(product.price, locale),
+                          category: product.category,
+                        }),
+                      )}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => onAddProduct(product)}
+                    >
                       <AppIcon name="ShoppingBag" size={17} />
                       {copy.add}
-                    </button>
+                    </a>
                   </div>
                 </div>
               </article>
@@ -106,7 +128,12 @@ export function ShopSection({ cartItems, cartPulseKey, copy, filters, locale, pr
               <span>{copy.total}</span>
               <strong>{formatPrice(total, locale)}</strong>
             </div>
-            <a className="primary-action" href="#contact">
+            <a
+              className="primary-action"
+              href={cartItems.length > 0 ? buildWhatsAppUrl(cartMessage) : "#boutique"}
+              target={cartItems.length > 0 ? "_blank" : undefined}
+              rel={cartItems.length > 0 ? "noreferrer" : undefined}
+            >
               {copy.checkout}
             </a>
           </aside>

@@ -11,7 +11,7 @@ import { RitualsPage } from "./pages/RitualsPage";
 import { ServicesPage } from "./pages/ServicesPage";
 import { ShopPage } from "./pages/ShopPage";
 import { TestimonialsPage } from "./pages/TestimonialsPage";
-import { supportedLanguages } from "./data/siteContent";
+import { buildWhatsAppUrl, supportedLanguages } from "./data/siteContent";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,8 +34,8 @@ function App() {
     [cart],
   );
   const whatsappHref = useMemo(
-    () => content.contactChannels.find((channel) => channel.id === "whatsapp")?.href ?? "#contact",
-    [content.contactChannels],
+    () => buildWhatsAppUrl(content.app.whatsappMessage),
+    [content.app.whatsappMessage],
   );
 
   const pages = {
@@ -77,7 +77,7 @@ function App() {
       <main className="tab-page" key={activeTab}>
         {pages[activeTab] ?? pages.accueil}
       </main>
-      <SiteFooter copy={content.footer} />
+      <SiteFooter copy={content.footer} socialLinks={content.footerLinks} />
     </AppShell>
   );
 }

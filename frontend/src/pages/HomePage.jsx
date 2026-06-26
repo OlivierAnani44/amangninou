@@ -16,7 +16,7 @@ export function HomePage({ content }) {
 
       <section className="section-band section-band--soft">
         <div className="section-inner proof-section">
-          {quickProofs.map((proof) => (
+          {content.quickProofs.map((proof) => (
             <article className="proof-card" key={proof.title}>
               <AppIcon name={proof.icon} size={23} />
               <div>

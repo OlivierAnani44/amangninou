@@ -1,5 +1,6 @@
 import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
+import { buildWhatsAppUrl, formatMessageTemplate } from "../../data/siteContent";
 
 export function ServicesSection({ categories, copy, processSteps, services }) {
   return (
@@ -37,7 +38,18 @@ export function ServicesSection({ categories, copy, processSteps, services }) {
                   <li key={point}>{point}</li>
                 ))}
               </ul>
-              <a className="service-action" href="#contact">
+              <a
+                className="service-action"
+                href={buildWhatsAppUrl(
+                  formatMessageTemplate(copy.whatsappText, {
+                    service: service.title,
+                    category: service.category,
+                    problem: service.problem,
+                  }),
+                )}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {copy.action}
                 <AppIcon name="ChevronRight" size={17} />
               </a>

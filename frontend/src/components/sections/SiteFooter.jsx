@@ -1,6 +1,6 @@
 import { AppIcon } from "../AppIcon";
 
-export function SiteFooter({ copy }) {
+export function SiteFooter({ copy, socialLinks = [] }) {
   return (
     <footer className="site-footer">
       <div className="section-inner footer-inner">
@@ -11,6 +11,13 @@ export function SiteFooter({ copy }) {
           <span>Amangninou</span>
         </a>
         <p>{copy}</p>
+        <div className="footer-socials">
+          {socialLinks.map((social) => (
+            <a href={social.href} key={social.id} target="_blank" rel="noreferrer" aria-label={social.label}>
+              <AppIcon name={social.icon} size={20} />
+            </a>
+          ))}
+        </div>
       </div>
     </footer>
   );

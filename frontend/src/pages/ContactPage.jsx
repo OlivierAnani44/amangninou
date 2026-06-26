@@ -5,7 +5,11 @@ export function ContactPage({ content }) {
   return (
     <>
       <PageIntro intro={content.pageIntros.contact} />
-      <ContactSection channels={content.contactChannels} copy={content.contactSection} />
+      <ContactSection
+        channels={content.contactChannels}
+        copy={content.contactSection}
+        socialLinks={content.socialLinks}
+      />
     </>
   );
 }

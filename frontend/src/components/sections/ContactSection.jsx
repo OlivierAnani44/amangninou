@@ -1,27 +1,16 @@
 import { useState } from "react";
 import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
+import { buildWhatsAppUrl } from "../../data/siteContent";
 
-const getDefaultApiBaseUrl = () => {
-  const isLocalHost = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-
-  return isLocalHost ? `${window.location.protocol}//${window.location.hostname}:8000` : "";
-};
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? getDefaultApiBaseUrl();
-
-const buildWhatsAppMessage = (channels, options, template, subject, message) => {
-  const whatsappChannel = channels.find((channel) => channel.id === "whatsapp");
+const buildWhatsAppMessage = (options, template, subject, message) => {
   const subjectLabel = options.find((option) => option.value === subject)?.label ?? subject;
-  const text = encodeURIComponent(
-    template.replace("{subject}", subjectLabel).replace("{message}", message),
-  );
-  const separator = whatsappChannel?.href.includes("?") ? "&" : "?";
+  const text = template.replace("{subject}", subjectLabel).replace("{message}", message);
 
-  return `${whatsappChannel?.href ?? "#"}${separator}text=${text}`;
+  return buildWhatsAppUrl(text);
 };
 
-export function ContactSection({ channels, copy }) {
+export function ContactSection({ channels, copy, socialLinks = [] }) {
   const [subject, setSubject] = useState("consultation");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("idle");
@@ -29,35 +18,13 @@ export function ContactSection({ channels, copy }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setStatus("loading");
-
-    if (!API_BASE_URL) {
-      window.location.href = buildWhatsAppMessage(
-        channels,
-        copy.options,
-        copy.whatsappText,
-        subject,
-        message,
-      );
-      setStatus("idle");
-      return;
-    }
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subject, message }),
-      });
-
-      if (!response.ok) {
-        throw new Error(copy.fetchError);
-      }
-
-      setStatus("success");
-      setMessage("");
-    } catch {
-      setStatus("error");
-    }
+    window.location.href = buildWhatsAppMessage(
+      copy.options,
+      copy.whatsappText,
+      subject,
+      message,
+    );
+    setStatus("idle");
   };
 
   return (
@@ -75,6 +42,15 @@ export function ContactSection({ channels, copy }) {
               <AppIcon name={channel.icon} size={24} />
               <span>{channel.label}</span>
               <strong>{channel.value}</strong>
+            </a>
+          ))}
+        </div>
+
+        <div className="contact-socials">
+          {socialLinks.map((social) => (
+            <a href={social.href} key={social.id} target="_blank" rel="noreferrer">
+              <AppIcon name={social.icon} size={22} />
+              <span>{social.label}</span>
             </a>
           ))}
         </div>

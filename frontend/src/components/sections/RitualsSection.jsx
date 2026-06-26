@@ -1,5 +1,6 @@
 import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
+import { buildWhatsAppUrl, formatMessageTemplate } from "../../data/siteContent";
 
 export function RitualsSection({ copy, rituals }) {
   return (
@@ -26,7 +27,17 @@ export function RitualsSection({ copy, rituals }) {
                   <li key={detail}>{detail}</li>
                 ))}
               </ul>
-              <a href="#contact" className="ritual-action">
+              <a
+                href={buildWhatsAppUrl(
+                  formatMessageTemplate(copy.whatsappText, {
+                    ritual: ritual.name,
+                    subtitle: ritual.subtitle,
+                  }),
+                )}
+                className="ritual-action"
+                target="_blank"
+                rel="noreferrer"
+              >
                 {copy.action}
                 <AppIcon name="ChevronRight" size={17} />
               </a>
