@@ -1,14 +1,14 @@
 import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
 
-export function RitualsSection({ rituals }) {
+export function RitualsSection({ copy, rituals }) {
   return (
     <section className="section-band section-band--green" id="rituel">
       <div className="section-inner">
         <SectionHeader
-          eyebrow="Rituels"
-          title="Fa, Dan, Sakpata, Hebiesso et autres traditions"
-          description="Chaque rituel est présenté avec sobriété, sans folklorisation, et avec une orientation vers un échange encadré."
+          eyebrow={copy.eyebrow}
+          title={copy.title}
+          description={copy.description}
         />
 
         <div className="ritual-grid">
@@ -27,7 +27,7 @@ export function RitualsSection({ rituals }) {
                 ))}
               </ul>
               <a href="#contact" className="ritual-action">
-                Demander une consultation
+                {copy.action}
                 <AppIcon name="ChevronRight" size={17} />
               </a>
             </article>

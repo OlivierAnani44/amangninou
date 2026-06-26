@@ -1,20 +1,18 @@
 import { HeroSection } from "../components/sections/HeroSection";
 import { SectionHeader } from "../components/SectionHeader";
 import { AppIcon } from "../components/AppIcon";
-import {
-  heroStats,
-  navigationItems,
-  ownerProfile,
-  quickProofs,
-  serviceHighlights,
-} from "../data/siteContent";
 
-export function HomePage() {
-  const quickTabs = navigationItems.filter((item) => item.id !== "accueil");
+export function HomePage({ content }) {
+  const quickTabs = content.navigationItems.filter((item) => item.id !== "accueil");
 
   return (
     <>
-      <HeroSection highlights={serviceHighlights} owner={ownerProfile} stats={heroStats} />
+      <HeroSection
+        copy={content.hero}
+        highlights={content.serviceHighlights}
+        owner={content.ownerProfile}
+        stats={content.heroStats}
+      />
 
       <section className="section-band section-band--soft">
         <div className="section-inner proof-section">
@@ -33,9 +31,9 @@ export function HomePage() {
       <section className="section-band section-band--white">
         <div className="section-inner">
           <SectionHeader
-            eyebrow="Explorer"
-            title="Accès rapide aux espaces"
-            description="Accédez rapidement aux services, aux produits traditionnels, aux rituels ou à votre espace de suivi."
+            eyebrow={content.home.exploreEyebrow}
+            title={content.home.exploreTitle}
+            description={content.home.exploreDescription}
             align="center"
           />
 

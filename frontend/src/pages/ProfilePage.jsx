@@ -1,15 +1,18 @@
 import { PageIntro } from "../components/PageIntro";
 import { ProfileSection } from "../components/sections/ProfileSection";
-import { notifications, pageIntros, profileFeatures, securityItems } from "../data/siteContent";
 
-export function ProfilePage() {
+export function ProfilePage({ content }) {
   return (
     <>
-      <PageIntro intro={pageIntros.profil} />
+      <PageIntro intro={content.pageIntros.profil} />
       <ProfileSection
-        notifications={notifications}
-        profileFeatures={profileFeatures}
-        securityItems={securityItems}
+        contactChannels={content.contactChannels}
+        copy={content.profileSection}
+        locale={content.locale}
+        messages={content.profileMessages}
+        notifications={content.notifications}
+        profileFeatures={content.profileFeatures}
+        securityItems={content.securityItems}
       />
     </>
   );

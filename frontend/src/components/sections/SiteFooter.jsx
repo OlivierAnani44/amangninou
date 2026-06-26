@@ -1,6 +1,6 @@
 import { AppIcon } from "../AppIcon";
 
-export function SiteFooter() {
+export function SiteFooter({ copy }) {
   return (
     <footer className="site-footer">
       <div className="section-inner footer-inner">
@@ -10,10 +10,7 @@ export function SiteFooter() {
           </span>
           <span>Amangninou</span>
         </a>
-        <p>
-          Spiritualité africaine, plantes traditionnelles et accompagnement
-          responsable. Les informations de bien-être ne remplacent pas un avis médical.
-        </p>
+        <p>{copy}</p>
       </div>
     </footer>
   );

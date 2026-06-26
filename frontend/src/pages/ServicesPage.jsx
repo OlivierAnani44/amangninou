@@ -1,12 +1,16 @@
 import { PageIntro } from "../components/PageIntro";
 import { ServicesSection } from "../components/sections/ServicesSection";
-import { pageIntros, processSteps, serviceCategories, services } from "../data/siteContent";
 
-export function ServicesPage() {
+export function ServicesPage({ content }) {
   return (
     <>
-      <PageIntro intro={pageIntros.services} />
-      <ServicesSection categories={serviceCategories} processSteps={processSteps} services={services} />
+      <PageIntro intro={content.pageIntros.services} />
+      <ServicesSection
+        categories={content.serviceCategories}
+        copy={content.servicesSection}
+        processSteps={content.processSteps}
+        services={content.services}
+      />
     </>
   );
 }

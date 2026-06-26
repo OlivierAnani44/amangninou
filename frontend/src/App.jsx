@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { AppShell } from "./components/AppShell";
 import { SiteFooter } from "./components/sections/SiteFooter";
 import { useActiveTab } from "./hooks/useActiveTab";
+import { useLanguagePreference } from "./hooks/useLanguagePreference";
 import { useThemeMode } from "./hooks/useThemeMode";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
@@ -10,18 +11,14 @@ import { RitualsPage } from "./pages/RitualsPage";
 import { ServicesPage } from "./pages/ServicesPage";
 import { ShopPage } from "./pages/ShopPage";
 import { TestimonialsPage } from "./pages/TestimonialsPage";
-import {
-  contactChannels,
-  navigationItems,
-  primaryTabIds,
-  secondaryNavigationItems,
-} from "./data/siteContent";
+import { supportedLanguages } from "./data/siteContent";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [cartPulseKey, setCartPulseKey] = useState(0);
-  const activeTab = useActiveTab(navigationItems);
+  const { content, language, changeLanguage } = useLanguagePreference();
+  const activeTab = useActiveTab(content.navigationItems);
   const { isDarkMode, themeMode, toggleThemeMode } = useThemeMode();
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
@@ -36,34 +33,43 @@ function App() {
     () => cart.reduce((total, product) => total + product.price, 0),
     [cart],
   );
+  const whatsappHref = useMemo(
+    () => content.contactChannels.find((channel) => channel.id === "whatsapp")?.href ?? "#contact",
+    [content.contactChannels],
+  );
 
   const pages = {
-    accueil: <HomePage />,
-    services: <ServicesPage />,
-    temoignages: <TestimonialsPage />,
+    accueil: <HomePage content={content} />,
+    services: <ServicesPage content={content} />,
+    temoignages: <TestimonialsPage content={content} />,
     boutique: (
       <ShopPage
         cartItems={cart}
         cartPulseKey={cartPulseKey}
+        content={content}
         total={cartTotal}
         onAddProduct={addProductToCart}
       />
     ),
-    rituel: <RitualsPage />,
-    profil: <ProfilePage />,
-    contact: <ContactPage />,
+    rituel: <RitualsPage content={content} />,
+    profil: <ProfilePage content={content} />,
+    contact: <ContactPage content={content} />,
   };
 
   return (
     <AppShell
       activeTabId={activeTab}
       menuOpen={menuOpen}
-      navigationItems={navigationItems}
-      primaryTabIds={primaryTabIds}
-      secondaryNavigationItems={secondaryNavigationItems}
+      navigationItems={content.navigationItems}
+      primaryTabIds={content.primaryTabIds}
+      secondaryNavigationItems={content.secondaryNavigationItems}
+      appCopy={content.app}
       isDarkMode={isDarkMode}
+      language={language}
+      languages={supportedLanguages}
       themeMode={themeMode}
-      whatsappHref={contactChannels[0].href}
+      whatsappHref={whatsappHref}
+      onLanguageChange={changeLanguage}
       onCloseMenu={closeMenu}
       onToggleTheme={toggleThemeMode}
       onToggleMenu={toggleMenu}
@@ -71,7 +77,7 @@ function App() {
       <main className="tab-page" key={activeTab}>
         {pages[activeTab] ?? pages.accueil}
       </main>
-      <SiteFooter />
+      <SiteFooter copy={content.footer} />
     </AppShell>
   );
 }

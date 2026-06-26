@@ -1,17 +1,17 @@
 import { AppIcon } from "../AppIcon";
 import { SectionHeader } from "../SectionHeader";
 
-export function ServicesSection({ categories, processSteps, services }) {
+export function ServicesSection({ categories, copy, processSteps, services }) {
   return (
     <section className="section-band section-band--white" id="services">
       <div className="section-inner">
         <SectionHeader
-          eyebrow="Services"
-          title="Un parcours clair avant chaque accompagnement"
-          description="Les services sont présentés par besoin pour vous aider à savoir rapidement où commencer."
+          eyebrow={copy.eyebrow}
+          title={copy.title}
+          description={copy.description}
         />
 
-        <div className="category-strip" aria-label="Catégories de services">
+        <div className="category-strip" aria-label={copy.categoryLabel}>
           {categories.map((category) => (
             <span key={category.label}>
               <AppIcon name={category.icon} size={17} />
@@ -38,7 +38,7 @@ export function ServicesSection({ categories, processSteps, services }) {
                 ))}
               </ul>
               <a className="service-action" href="#contact">
-                Demander conseil
+                {copy.action}
                 <AppIcon name="ChevronRight" size={17} />
               </a>
             </article>
@@ -47,9 +47,9 @@ export function ServicesSection({ categories, processSteps, services }) {
 
         <div className="process-panel">
           <SectionHeader
-            eyebrow="Parcours"
-            title="Comment ça se passe ?"
-            description="Un parcours simple en trois temps pour éviter les décisions floues."
+            eyebrow={copy.processEyebrow}
+            title={copy.processTitle}
+            description={copy.processDescription}
           />
 
           <div className="process-grid">

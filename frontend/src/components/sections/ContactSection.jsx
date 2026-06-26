@@ -10,15 +10,18 @@ const getDefaultApiBaseUrl = () => {
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? getDefaultApiBaseUrl();
 
-const buildWhatsAppMessage = (channels, subject, message) => {
-  const whatsappChannel = channels.find((channel) => channel.label === "WhatsApp");
-  const text = encodeURIComponent(`Bonjour, je souhaite une information.\nBesoin: ${subject}\nMessage: ${message}`);
+const buildWhatsAppMessage = (channels, options, template, subject, message) => {
+  const whatsappChannel = channels.find((channel) => channel.id === "whatsapp");
+  const subjectLabel = options.find((option) => option.value === subject)?.label ?? subject;
+  const text = encodeURIComponent(
+    template.replace("{subject}", subjectLabel).replace("{message}", message),
+  );
   const separator = whatsappChannel?.href.includes("?") ? "&" : "?";
 
   return `${whatsappChannel?.href ?? "#"}${separator}text=${text}`;
 };
 
-export function ContactSection({ channels }) {
+export function ContactSection({ channels, copy }) {
   const [subject, setSubject] = useState("consultation");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("idle");
@@ -28,7 +31,13 @@ export function ContactSection({ channels }) {
     setStatus("loading");
 
     if (!API_BASE_URL) {
-      window.location.href = buildWhatsAppMessage(channels, subject, message);
+      window.location.href = buildWhatsAppMessage(
+        channels,
+        copy.options,
+        copy.whatsappText,
+        subject,
+        message,
+      );
       setStatus("idle");
       return;
     }
@@ -41,7 +50,7 @@ export function ContactSection({ channels }) {
       });
 
       if (!response.ok) {
-        throw new Error("La demande n'a pas pu être envoyée");
+        throw new Error(copy.fetchError);
       }
 
       setStatus("success");
@@ -55,9 +64,9 @@ export function ContactSection({ channels }) {
     <section className="section-band section-band--contact" id="contact">
       <div className="section-inner contact-layout">
         <SectionHeader
-          eyebrow="Contact"
-          title="Un premier échange avant toute démarche"
-          description="Posez votre question, demandez une consultation ou vérifiez un produit avant achat."
+          eyebrow={copy.eyebrow}
+          title={copy.title}
+          description={copy.description}
         />
 
         <div className="contact-grid">
@@ -72,35 +81,34 @@ export function ContactSection({ channels }) {
 
         <form className="contact-form" onSubmit={handleSubmit}>
           <label>
-            Votre besoin
+            {copy.needLabel}
             <select value={subject} onChange={(event) => setSubject(event.target.value)}>
-              <option value="consultation">Consultation spirituelle</option>
-              <option value="boutique">Question boutique</option>
-              <option value="rituel">Information sur un rituel</option>
-              <option value="profil">Compte ou sécurité</option>
+              {copy.options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </label>
           <label>
-            Message
+            {copy.messageLabel}
             <textarea
               required
               rows="4"
-              placeholder="Expliquez brièvement votre demande"
+              placeholder={copy.messagePlaceholder}
               value={message}
               onChange={(event) => setMessage(event.target.value)}
             />
           </label>
           <button type="submit" className="primary-action" disabled={status === "loading"}>
             <AppIcon name="MessageCircle" size={19} />
-            {status === "loading" ? "Envoi..." : "Préparer le message"}
+            {status === "loading" ? copy.loading : copy.submit}
           </button>
           {status === "success" ? (
-            <p className="form-status form-status--success">Demande préparée avec succès.</p>
+            <p className="form-status form-status--success">{copy.success}</p>
           ) : null}
           {status === "error" ? (
-            <p className="form-status form-status--error">
-              Le message n’a pas pu être envoyé. Réessayez ou utilisez WhatsApp.
-            </p>
+            <p className="form-status form-status--error">{copy.error}</p>
           ) : null}
         </form>
       </div>

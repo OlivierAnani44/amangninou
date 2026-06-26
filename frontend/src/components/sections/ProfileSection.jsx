@@ -4,6 +4,7 @@ import { SectionHeader } from "../SectionHeader";
 import {
   emptyProfileForm,
   getProfileInitials,
+  normalizePreferredChannel,
   useProfileAccount,
 } from "../../hooks/useProfileAccount";
 
@@ -25,18 +26,11 @@ const statusClassNames = {
   info: "form-status form-status--info",
 };
 
-const notificationPreferenceKeys = {
-  Bienvenue: "updatesEnabled",
-  Rappels: "remindersEnabled",
-  "Mises a jour": "updatesEnabled",
-  "Mises à jour": "updatesEnabled",
-};
-
 const buildEditForm = (profile) => ({
   fullName: profile?.fullName ?? "",
   contact: profile?.contact ?? "",
   email: profile?.email ?? "",
-  preferredChannel: profile?.preferredChannel ?? "WhatsApp",
+  preferredChannel: normalizePreferredChannel(profile?.preferredChannel),
   remindersEnabled: profile?.remindersEnabled ?? true,
   updatesEnabled: profile?.updatesEnabled ?? true,
   promotionsEnabled: profile?.promotionsEnabled ?? false,
@@ -46,19 +40,23 @@ const buildEditForm = (profile) => ({
   confirmNewPassword: "",
 });
 
-function formatProfileDate(value) {
-  if (!value) {
-    return "Aujourd'hui";
-  }
-
-  return new Intl.DateTimeFormat("fr-FR", {
+function formatProfileDate(value, locale) {
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "short",
     year: "numeric",
-  }).format(new Date(value));
+  }).format(new Date(value ?? Date.now()));
 }
 
-export function ProfileSection({ notifications, profileFeatures, securityItems }) {
+export function ProfileSection({
+  contactChannels = [],
+  copy,
+  locale,
+  messages,
+  notifications,
+  profileFeatures,
+  securityItems,
+}) {
   const {
     profile,
     hasAccount,
@@ -69,7 +67,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
     logout,
     updateProfile,
     deleteAccount,
-  } = useProfileAccount();
+  } = useProfileAccount(messages);
 
   const [createForm, setCreateForm] = useState(createInitialForm);
   const [loginForm, setLoginForm] = useState(loginInitialForm);
@@ -83,18 +81,36 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
   }, [profile]);
 
   const initials = useMemo(() => getProfileInitials(profile?.fullName), [profile?.fullName]);
+  const contactChannelOptions = useMemo(() => {
+    const translatedChannels = contactChannels.filter((channel) =>
+      ["whatsapp", "phone", "email"].includes(channel.id),
+    );
+
+    if (translatedChannels.length > 0) {
+      return translatedChannels;
+    }
+
+    return [
+      { id: "whatsapp", label: "WhatsApp" },
+      { id: "phone", label: copy.phoneChannel },
+      { id: "email", label: "Email" },
+    ];
+  }, [contactChannels, copy.phoneChannel]);
 
   const accountSubtitle = useMemo(() => {
     if (isAuthenticated) {
-      return `Connecté depuis le ${formatProfileDate(profile?.updatedAt ?? profile?.createdAt)}`;
+      return copy.connectedSince.replace(
+        "{date}",
+        formatProfileDate(profile?.updatedAt ?? profile?.createdAt, locale),
+      );
     }
 
     if (hasAccount) {
-      return "Connexion requise pour modifier les informations";
+      return copy.loginRequired;
     }
 
-    return "Compte facultatif pour garder vos préférences";
-  }, [hasAccount, isAuthenticated, profile?.createdAt, profile?.updatedAt]);
+    return copy.optionalAccount;
+  }, [copy, hasAccount, isAuthenticated, locale, profile?.createdAt, profile?.updatedAt]);
 
   const setCreateValue = (field, value) => {
     setCreateForm((current) => ({ ...current, [field]: value }));
@@ -145,7 +161,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
 
   const handleLogout = () => {
     logout();
-    setStatus({ type: "success", text: "Session fermée." });
+    setStatus({ type: "success", text: copy.sessionClosed });
   };
 
   const handleDeleteAccount = () => {
@@ -153,13 +169,13 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
       setConfirmDelete(true);
       setStatus({
         type: "info",
-        text: "Appuyez une deuxième fois pour supprimer le profil de cet appareil.",
+        text: copy.deletePrompt,
       });
       return;
     }
 
     deleteAccount();
-    setStatus({ type: "success", text: "Profil supprimé de cet appareil." });
+    setStatus({ type: "success", text: copy.deleted });
     setConfirmDelete(false);
   };
 
@@ -168,9 +184,9 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
       <div className="section-inner profile-layout">
         <div>
           <SectionHeader
-            eyebrow="Profil"
-            title="Compte facultatif, réglages utiles"
-            description="Créez un profil si vous voulez garder vos préférences, activer les rappels et sécuriser l'accès."
+            eyebrow={copy.eyebrow}
+            title={copy.title}
+            description={copy.description}
           />
 
           <div className="feature-list">
@@ -186,21 +202,21 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
           </div>
         </div>
 
-        <div className="account-panel account-panel--interactive" aria-label="Compte utilisateur">
+        <div className="account-panel account-panel--interactive" aria-label={copy.panelAria}>
           <div className="account-topline">
             <span className="avatar-mark">{initials}</span>
             <div>
-              <strong>{profile?.fullName || "Profil Amangninou"}</strong>
+              <strong>{profile?.fullName || copy.profileName}</strong>
               <span>{accountSubtitle}</span>
             </div>
           </div>
 
-          <div className="profile-state-row" aria-label="Etat du profil">
+          <div className="profile-state-row" aria-label={copy.stateAria}>
             <span className={isAuthenticated ? "status-pill is-on" : "status-pill"}>
-              {isAuthenticated ? "Connecté" : hasAccount ? "Hors ligne" : "Nouveau"}
+              {isAuthenticated ? copy.connected : hasAccount ? copy.offline : copy.new}
             </span>
             <span className={profile?.twoFactorEnabled ? "status-pill is-on" : "status-pill"}>
-              2FA {profile?.twoFactorEnabled ? "active" : "inactive"}
+              2FA {profile?.twoFactorEnabled ? copy.active : copy.inactive}
             </span>
           </div>
 
@@ -210,14 +226,14 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
             <form className="profile-form" onSubmit={handleCreateAccount}>
               <div className="profile-form-heading">
                 <AppIcon name="UserPlus" size={20} />
-                <h3>Créer un compte</h3>
+                <h3>{copy.createAccount}</h3>
               </div>
 
               <label>
-                Nom complet
+                {copy.fullName}
                 <input
                   type="text"
-                  placeholder="Votre nom"
+                  placeholder={copy.fullNamePlaceholder}
                   value={createForm.fullName}
                   onChange={(event) => setCreateValue("fullName", event.target.value)}
                   autoComplete="name"
@@ -226,7 +242,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
               </label>
 
               <label>
-                Contact
+                {copy.contact}
                 <input
                   type="tel"
                   placeholder="+229 ..."
@@ -238,10 +254,10 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
               </label>
 
               <label>
-                Email (facultatif)
+                {copy.emailOptional}
                 <input
                   type="email"
-                  placeholder="nom@example.com, optionnel"
+                  placeholder={copy.emailPlaceholder}
                   value={createForm.email}
                   onChange={(event) => setCreateValue("email", event.target.value)}
                   autoComplete="email"
@@ -249,23 +265,25 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
               </label>
 
               <label>
-                Canal préféré
+                {copy.preferredChannel}
                 <select
-                  value={createForm.preferredChannel}
+                  value={normalizePreferredChannel(createForm.preferredChannel)}
                   onChange={(event) => setCreateValue("preferredChannel", event.target.value)}
                 >
-                  <option>WhatsApp</option>
-                  <option>Téléphone</option>
-                  <option>Email</option>
+                  {contactChannelOptions.map((channel) => (
+                    <option key={channel.id} value={channel.id}>
+                      {channel.label}
+                    </option>
+                  ))}
                 </select>
               </label>
 
               <div className="form-grid">
                 <label>
-                  Mot de passe
+                  {copy.password}
                   <input
                     type="password"
-                    placeholder="Minimum 6 caractères"
+                    placeholder={copy.passwordPlaceholder}
                     value={createForm.password}
                     onChange={(event) => setCreateValue("password", event.target.value)}
                     autoComplete="new-password"
@@ -273,10 +291,10 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
                   />
                 </label>
                 <label>
-                  Confirmation
+                  {copy.confirmation}
                   <input
                     type="password"
-                    placeholder="Répéter le mot de passe"
+                    placeholder={copy.repeatPassword}
                     value={createForm.confirmPassword}
                     onChange={(event) => setCreateValue("confirmPassword", event.target.value)}
                     autoComplete="new-password"
@@ -291,7 +309,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
                   checked={createForm.remindersEnabled}
                   onChange={(event) => setCreateValue("remindersEnabled", event.target.checked)}
                 />
-                <span>Activer les rappels</span>
+                <span>{copy.reminders}</span>
               </label>
 
               <label className="toggle-row">
@@ -300,7 +318,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
                   checked={createForm.updatesEnabled}
                   onChange={(event) => setCreateValue("updatesEnabled", event.target.checked)}
                 />
-                <span>Recevoir les mises à jour</span>
+                <span>{copy.updates}</span>
               </label>
 
               <label className="toggle-row">
@@ -309,17 +327,17 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
                   checked={createForm.twoFactorEnabled}
                   onChange={(event) => setCreateValue("twoFactorEnabled", event.target.checked)}
                 />
-                <span>Activer le code 2FA</span>
+                <span>{copy.twoFactor}</span>
               </label>
 
               {createForm.twoFactorEnabled ? (
                 <label>
-                  Code 2FA personnel
+                  {copy.personalCode}
                   <input
                     type="password"
                     inputMode="numeric"
                     pattern="[0-9]{6}"
-                    placeholder="6 chiffres"
+                    placeholder={copy.sixDigits}
                     value={createForm.twoFactorCode}
                     onChange={(event) => setCreateValue("twoFactorCode", event.target.value)}
                     autoComplete="one-time-code"
@@ -330,7 +348,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
 
               <button className="primary-action" type="submit" disabled={isBusy}>
                 <AppIcon name="UserPlus" size={18} />
-                Créer le profil
+                {copy.createProfile}
               </button>
             </form>
           ) : null}
@@ -339,14 +357,14 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
             <form className="profile-form" onSubmit={handleLogin}>
               <div className="profile-form-heading">
                 <AppIcon name="LogIn" size={20} />
-                <h3>Connexion</h3>
+                <h3>{copy.login}</h3>
               </div>
 
               <label>
-                Contact ou email
+                {copy.loginIdentifier}
                 <input
                   type="text"
-                  placeholder="Votre contact ou email"
+                  placeholder={copy.loginIdentifierPlaceholder}
                   value={loginForm.loginId}
                   onChange={(event) => setLoginValue("loginId", event.target.value)}
                   autoComplete="username"
@@ -355,10 +373,10 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
               </label>
 
               <label>
-                Mot de passe
+                {copy.password}
                 <input
                   type="password"
-                  placeholder="Votre mot de passe"
+                  placeholder={copy.currentPassword}
                   value={loginForm.password}
                   onChange={(event) => setLoginValue("password", event.target.value)}
                   autoComplete="current-password"
@@ -368,12 +386,12 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
 
               {profile?.twoFactorEnabled ? (
                 <label>
-                  Code 2FA
+                  {copy.personalCode}
                   <input
                     type="password"
                     inputMode="numeric"
                     pattern="[0-9]{6}"
-                    placeholder="6 chiffres"
+                    placeholder={copy.sixDigits}
                     value={loginForm.twoFactorCode}
                     onChange={(event) => setLoginValue("twoFactorCode", event.target.value)}
                     autoComplete="one-time-code"
@@ -384,7 +402,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
 
               <button className="primary-action" type="submit" disabled={isBusy}>
                 <AppIcon name="LogIn" size={18} />
-                Se connecter
+                {copy.signIn}
               </button>
             </form>
           ) : null}
@@ -393,11 +411,11 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
             <form className="profile-form" onSubmit={handleUpdateProfile}>
               <div className="profile-form-heading">
                 <AppIcon name="Settings" size={20} />
-                <h3>Modifier le profil</h3>
+                <h3>{copy.editProfile}</h3>
               </div>
 
               <label>
-                Nom complet
+                {copy.fullName}
                 <input
                   type="text"
                   value={editForm.fullName}
@@ -408,7 +426,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
               </label>
 
               <label>
-                Contact
+                {copy.contact}
                 <input
                   type="tel"
                   value={editForm.contact}
@@ -419,10 +437,10 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
               </label>
 
               <label>
-                Email (facultatif)
+                {copy.emailOptional}
                 <input
                   type="email"
-                  placeholder="nom@example.com, optionnel"
+                  placeholder={copy.emailPlaceholder}
                   value={editForm.email}
                   onChange={(event) => setEditValue("email", event.target.value)}
                   autoComplete="email"
@@ -430,14 +448,16 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
               </label>
 
               <label>
-                Canal préféré
+                {copy.preferredChannel}
                 <select
-                  value={editForm.preferredChannel}
+                  value={normalizePreferredChannel(editForm.preferredChannel)}
                   onChange={(event) => setEditValue("preferredChannel", event.target.value)}
                 >
-                  <option>WhatsApp</option>
-                  <option>Téléphone</option>
-                  <option>Email</option>
+                  {contactChannelOptions.map((channel) => (
+                    <option key={channel.id} value={channel.id}>
+                      {channel.label}
+                    </option>
+                  ))}
                 </select>
               </label>
 
@@ -448,7 +468,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
                     checked={editForm.remindersEnabled}
                     onChange={(event) => setEditValue("remindersEnabled", event.target.checked)}
                   />
-                  <span>Rappels</span>
+                  <span>{copy.remindersShort}</span>
                 </label>
 
                 <label className="toggle-row">
@@ -457,7 +477,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
                     checked={editForm.updatesEnabled}
                     onChange={(event) => setEditValue("updatesEnabled", event.target.checked)}
                   />
-                  <span>Mises à jour</span>
+                  <span>{copy.updatesShort}</span>
                 </label>
 
                 <label className="toggle-row">
@@ -466,7 +486,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
                     checked={editForm.promotionsEnabled}
                     onChange={(event) => setEditValue("promotionsEnabled", event.target.checked)}
                   />
-                  <span>Publicité</span>
+                  <span>{copy.promotions}</span>
                 </label>
               </div>
 
@@ -476,20 +496,20 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
                   checked={editForm.twoFactorEnabled}
                   onChange={(event) => setEditValue("twoFactorEnabled", event.target.checked)}
                 />
-                <span>Double authentification</span>
+                <span>{copy.twoFactorFull}</span>
               </label>
 
               {editForm.twoFactorEnabled ? (
                 <label>
-                  Code 2FA
+                  {copy.personalCode}
                   <input
                     type="password"
                     inputMode="numeric"
                     pattern="[0-9]{6}"
                     placeholder={
                       profile?.twoFactorEnabled
-                        ? "Nouveau code optionnel"
-                        : "Choisir un code à 6 chiffres"
+                        ? copy.newCodeOptional
+                        : copy.chooseSixDigitCode
                     }
                     value={editForm.twoFactorCode}
                     onChange={(event) => setEditValue("twoFactorCode", event.target.value)}
@@ -501,20 +521,20 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
 
               <div className="form-grid">
                 <label>
-                  Nouveau mot de passe
+                  {copy.newPassword}
                   <input
                     type="password"
-                    placeholder="Optionnel"
+                    placeholder={copy.optional}
                     value={editForm.newPassword}
                     onChange={(event) => setEditValue("newPassword", event.target.value)}
                     autoComplete="new-password"
                   />
                 </label>
                 <label>
-                  Confirmation
+                  {copy.confirmation}
                   <input
                     type="password"
-                    placeholder="Optionnel"
+                    placeholder={copy.optional}
                     value={editForm.confirmNewPassword}
                     onChange={(event) => setEditValue("confirmNewPassword", event.target.value)}
                     autoComplete="new-password"
@@ -525,30 +545,29 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
               <div className="profile-actions">
                 <button className="primary-action" type="submit" disabled={isBusy}>
                   <AppIcon name="Save" size={18} />
-                  Enregistrer
+                  {copy.save}
                 </button>
                 <button className="secondary-action" type="button" onClick={handleLogout}>
                   <AppIcon name="LogOut" size={18} />
-                  Déconnexion
+                  {copy.logout}
                 </button>
               </div>
 
               <button className="danger-action" type="button" onClick={handleDeleteAccount}>
                 <AppIcon name="Trash2" size={18} />
-                {confirmDelete ? "Confirmer la suppression" : "Supprimer le profil"}
+                {confirmDelete ? copy.confirmDelete : copy.deleteProfile}
               </button>
             </form>
           ) : null}
 
           <p className="profile-note">
-            Les informations du profil sont gardées sur cet appareil. Le contenu du site reste
-            accessible sans compte.
+            {copy.note}
           </p>
         </div>
 
-        <div className="notification-strip" aria-label="Notifications">
+        <div className="notification-strip" aria-label={copy.notificationsAria}>
           {notifications.map((notification) => {
-            const preferenceKey = notificationPreferenceKeys[notification.title];
+            const preferenceKey = notification.preferenceKey;
             const isEnabled = !profile || !preferenceKey || profile[preferenceKey];
 
             return (
@@ -557,7 +576,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
                 <div className="notification-card-heading">
                   <h3>{notification.title}</h3>
                   <span className={isEnabled ? "status-pill is-on" : "status-pill"}>
-                    {isEnabled ? "Active" : "Inactive"}
+                    {isEnabled ? copy.enabled : copy.disabled}
                   </span>
                 </div>
                 <p>{notification.text}</p>
@@ -567,7 +586,7 @@ export function ProfileSection({ notifications, profileFeatures, securityItems }
         </div>
 
         <div className="security-panel">
-          <h3>Sécurité et protection</h3>
+          <h3>{copy.securityTitle}</h3>
           <ul>
             {securityItems.map((item) => (
               <li key={item}>

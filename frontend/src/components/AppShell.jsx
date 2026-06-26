@@ -8,9 +8,13 @@ export function AppShell({
   navigationItems,
   primaryTabIds,
   secondaryNavigationItems,
+  appCopy,
   isDarkMode,
+  language,
+  languages,
   themeMode,
   whatsappHref,
+  onLanguageChange,
   onCloseMenu,
   onToggleTheme,
   onToggleMenu,
@@ -43,7 +47,7 @@ export function AppShell({
           <span>Amangninou</span>
         </a>
 
-        <nav className="desktop-nav" aria-label="Navigation principale">
+        <nav className="desktop-nav" aria-label={appCopy.mainNavigation}>
           {primaryTabItems.map((item) => (
             <a
               aria-current={activeTabId === item.id ? "page" : undefined}
@@ -62,15 +66,31 @@ export function AppShell({
           href="#contact"
           onClick={onCloseMenu}
         >
-          Contact
+          {appCopy.contact}
         </a>
+
+        <label className="language-select" title={appCopy.languageLabel}>
+          <AppIcon name="Languages" size={18} />
+          <span className="sr-only">{appCopy.languageAria}</span>
+          <select
+            aria-label={appCopy.languageAria}
+            value={language}
+            onChange={(event) => onLanguageChange(event.target.value)}
+          >
+            {languages.map((item) => (
+              <option key={item.code} value={item.code}>
+                {item.shortLabel}
+              </option>
+            ))}
+          </select>
+        </label>
 
         <button
           className="icon-button theme-toggle"
           type="button"
-          aria-label={isDarkMode ? "Activer le mode clair" : "Activer le mode sombre"}
+          aria-label={isDarkMode ? appCopy.enableLightMode : appCopy.enableDarkMode}
           aria-pressed={isDarkMode}
-          title={isDarkMode ? "Mode clair" : "Mode sombre"}
+          title={isDarkMode ? appCopy.lightMode : appCopy.darkMode}
           onClick={onToggleTheme}
         >
           <AppIcon name={isDarkMode ? "Sun" : "Moon"} size={22} />
@@ -79,9 +99,9 @@ export function AppShell({
         <button
           className="icon-button menu-toggle"
           type="button"
-          aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-label={menuOpen ? appCopy.closeMenu : appCopy.openMenu}
           aria-expanded={menuOpen}
-          title={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          title={menuOpen ? appCopy.closeMenu : appCopy.openMenu}
           onClick={onToggleMenu}
         >
           <AppIcon name={menuOpen ? "X" : "Menu"} size={24} />
@@ -108,10 +128,26 @@ export function AppShell({
           onClick={onToggleTheme}
         >
           <AppIcon name={isDarkMode ? "Sun" : "Moon"} size={18} />
-          <span>{themeMode === "dark" ? "Mode clair" : "Mode sombre"}</span>
+          <span>{themeMode === "dark" ? appCopy.lightMode : appCopy.darkMode}</span>
         </button>
 
-        <nav className="menu-list" aria-label="Navigation mobile">
+        <label className="menu-language-select">
+          <AppIcon name="Languages" size={18} />
+          <span>{appCopy.languageLabel}</span>
+          <select
+            aria-label={appCopy.languageAria}
+            value={language}
+            onChange={(event) => onLanguageChange(event.target.value)}
+          >
+            {languages.map((item) => (
+              <option key={item.code} value={item.code}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <nav className="menu-list" aria-label={appCopy.mobileNavigation}>
           {secondaryNavigationItems.map((item, index) => (
             <a
               aria-current={activeTabId === item.id || item.href === `#${activeTabId}` ? "page" : undefined}
@@ -131,11 +167,11 @@ export function AppShell({
 
       {children}
 
-      <a className="floating-whatsapp" href={whatsappHref} aria-label="Contacter sur WhatsApp">
+      <a className="floating-whatsapp" href={whatsappHref} aria-label={appCopy.whatsapp}>
         <AppIcon name="MessageCircle" size={23} />
       </a>
 
-      <nav className="bottom-tabbar" aria-label="Onglets principaux">
+      <nav className="bottom-tabbar" aria-label={appCopy.mainTabs}>
         {primaryTabItems.map((item) => (
           <a
             aria-current={activeTabId === item.id ? "page" : undefined}
@@ -144,7 +180,7 @@ export function AppShell({
             key={item.id}
           >
             <AppIcon name={item.icon} size={20} />
-            <span>{item.label.replace("Nos ", "")}</span>
+            <span>{item.label}</span>
           </a>
         ))}
       </nav>

@@ -1,15 +1,17 @@
 import { PageIntro } from "../components/PageIntro";
 import { ShopSection } from "../components/sections/ShopSection";
-import { pageIntros, products } from "../data/siteContent";
 
-export function ShopPage({ cartItems, cartPulseKey, total, onAddProduct }) {
+export function ShopPage({ cartItems, cartPulseKey, content, total, onAddProduct }) {
   return (
     <>
-      <PageIntro intro={pageIntros.boutique} />
+      <PageIntro intro={content.pageIntros.boutique} />
       <ShopSection
         cartItems={cartItems}
         cartPulseKey={cartPulseKey}
-        products={products}
+        copy={content.shopSection}
+        filters={content.productFilters}
+        locale={content.locale}
+        products={content.products}
         total={total}
         onAddProduct={onAddProduct}
       />

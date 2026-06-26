@@ -1,12 +1,15 @@
 import { PageIntro } from "../components/PageIntro";
 import { TrustSection } from "../components/sections/TrustSection";
-import { pageIntros, testimonials, trustItems } from "../data/siteContent";
 
-export function TestimonialsPage() {
+export function TestimonialsPage({ content }) {
   return (
     <>
-      <PageIntro intro={pageIntros.temoignages} />
-      <TrustSection testimonials={testimonials} trustItems={trustItems} />
+      <PageIntro intro={content.pageIntros.temoignages} />
+      <TrustSection
+        copy={content.trustSection}
+        testimonials={content.testimonials}
+        trustItems={content.trustItems}
+      />
     </>
   );
 }

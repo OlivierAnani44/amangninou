@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AppIcon } from "../AppIcon";
 
-export function HeroSection({ highlights, owner, stats }) {
+export function HeroSection({ copy, highlights, owner, stats }) {
   const [ownerImageLoaded, setOwnerImageLoaded] = useState(false);
   const ownerImageSrc = owner?.imageSrc ? `${import.meta.env.BASE_URL}${owner.imageSrc}` : "";
 
@@ -9,25 +9,22 @@ export function HeroSection({ highlights, owner, stats }) {
     <section className="hero section-band" id="accueil">
       <div className="section-inner hero-grid">
         <div className="hero-content">
-          <p className="eyebrow">Spiritualité africaine, plantes et accompagnement</p>
-          <h1>Togbe Amangninou</h1>
-          <p className="hero-text">
-            Un espace mobile simple pour demander conseil, découvrir les rituels
-            Vodou africains et choisir des produits traditionnels avec prudence.
-          </p>
+          <p className="eyebrow">{copy.eyebrow}</p>
+          <h1>{copy.title}</h1>
+          <p className="hero-text">{copy.text}</p>
 
           <div className="hero-actions">
             <a className="primary-action" href="#services">
               <AppIcon name="ShieldCheck" size={19} />
-              Nos services
+              {copy.primaryAction}
             </a>
             <a className="secondary-action" href="#boutique">
               <AppIcon name="ShoppingBag" size={19} />
-              Voir la boutique
+              {copy.secondaryAction}
             </a>
           </div>
 
-          <ul className="hero-highlights" aria-label="Points forts">
+          <ul className="hero-highlights" aria-label={copy.highlightsLabel}>
             {highlights.map((highlight) => (
               <li key={highlight}>
                 <AppIcon name="BadgeCheck" size={18} />
@@ -37,14 +34,14 @@ export function HeroSection({ highlights, owner, stats }) {
           </ul>
         </div>
 
-        <div className="hero-media" aria-label="Portrait de Togbe Amangninou">
+        <div className="hero-media" aria-label={copy.mediaLabel}>
           <article className="owner-photo-card">
             <div className="owner-photo-frame">
               {ownerImageSrc ? (
                 <img
                   className={ownerImageLoaded ? "is-loaded" : undefined}
                   src={ownerImageSrc}
-                  alt={`Portrait de ${owner?.name ?? "Togbe Amangninou"}`}
+                  alt={copy.ownerAlt}
                   onLoad={() => setOwnerImageLoaded(true)}
                   onError={(event) => {
                     event.currentTarget.style.display = "none";
@@ -58,7 +55,7 @@ export function HeroSection({ highlights, owner, stats }) {
             </div>
 
             <div className="owner-photo-copy">
-              <span>Photo du propriétaire</span>
+              <span>{copy.ownerPhotoLabel}</span>
               <strong>{owner?.name ?? "Togbe Amangninou"}</strong>
               <p>{owner?.specialty}</p>
             </div>

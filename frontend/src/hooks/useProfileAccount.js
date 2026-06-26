@@ -3,11 +3,51 @@ import { useCallback, useMemo, useState } from "react";
 const PROFILE_STORAGE_KEY = "amangninou.profile.v1";
 const PROFILE_SESSION_KEY = "amangninou.profile.session.v1";
 
+const defaultMessages = {
+  storageUnavailable: "Le stockage du navigateur est indisponible.",
+  fullNameRequired: "Le nom complet est obligatoire.",
+  contactRequired: "Le contact est obligatoire.",
+  invalidEmail: "L'adresse email n'est pas valide.",
+  passwordTooShort: "Le mot de passe doit contenir au moins 6 caractères.",
+  passwordMismatch: "Les deux mots de passe ne correspondent pas.",
+  invalidTwoFactor: "Le code 2FA doit contenir exactement 6 chiffres.",
+  actionFailed: "Action impossible pour le moment.",
+  accountExists: "Un profil existe déjà sur cet appareil.",
+  accountCreated: "Compte créé et connecté.",
+  noAccount: "Aucun profil n'existe encore sur cet appareil.",
+  invalidLogin: "Contact ou email incorrect.",
+  invalidPassword: "Mot de passe incorrect.",
+  invalidTwoFactorLogin: "Code 2FA incorrect.",
+  loginSuccess: "Connexion réussie.",
+  loginToEdit: "Connectez-vous pour modifier le profil.",
+  profileUpdated: "Profil mis à jour.",
+};
+
+const normalizeToken = (value) =>
+  cleanText(value)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+export const normalizePreferredChannel = (value) => {
+  const channel = normalizeToken(value);
+
+  if (channel === "phone" || channel === "telephone" || channel === "telefone") {
+    return "phone";
+  }
+
+  if (channel === "email") {
+    return "email";
+  }
+
+  return "whatsapp";
+};
+
 export const emptyProfileForm = {
   fullName: "",
   contact: "",
   email: "",
-  preferredChannel: "WhatsApp",
+  preferredChannel: "whatsapp",
   remindersEnabled: true,
   updatesEnabled: true,
   promotionsEnabled: false,
@@ -25,7 +65,7 @@ const normalizeProfileValues = (values) => ({
   fullName: cleanText(values.fullName),
   contact: cleanText(values.contact),
   email: normalizeEmail(values.email),
-  preferredChannel: cleanText(values.preferredChannel) || "WhatsApp",
+  preferredChannel: normalizePreferredChannel(values.preferredChannel),
   remindersEnabled: Boolean(values.remindersEnabled),
   updatesEnabled: Boolean(values.updatesEnabled),
   promotionsEnabled: Boolean(values.promotionsEnabled),
@@ -47,9 +87,9 @@ const readJson = (key) => {
   }
 };
 
-const writeJson = (key, value) => {
+const writeJson = (key, value, messages) => {
   if (!isBrowser()) {
-    throw new Error("Le stockage du navigateur est indisponible.");
+    throw new Error(messages.storageUnavailable);
   }
 
   window.localStorage.setItem(key, JSON.stringify(value));
@@ -129,7 +169,7 @@ const toPublicProfile = (profile) => {
     fullName: profile.fullName,
     contact: profile.contact,
     email: profile.email,
-    preferredChannel: profile.preferredChannel,
+    preferredChannel: normalizePreferredChannel(profile.preferredChannel),
     remindersEnabled: profile.remindersEnabled,
     updatesEnabled: profile.updatesEnabled,
     promotionsEnabled: profile.promotionsEnabled,
@@ -144,33 +184,33 @@ const hasValidSession = (profile) => {
   return Boolean(profile?.id && session?.accountId === profile.id);
 };
 
-const validateBaseProfile = (values) => {
+const validateBaseProfile = (values, messages) => {
   if (!values.fullName) {
-    throw new Error("Le nom complet est obligatoire.");
+    throw new Error(messages.fullNameRequired);
   }
 
   if (!values.contact) {
-    throw new Error("Le contact est obligatoire.");
+    throw new Error(messages.contactRequired);
   }
 
   if (values.email && !values.email.includes("@")) {
-    throw new Error("L'adresse email n'est pas valide.");
+    throw new Error(messages.invalidEmail);
   }
 };
 
-const validatePassword = (password, confirmation) => {
+const validatePassword = (password, confirmation, messages) => {
   if (cleanText(password).length < 6) {
-    throw new Error("Le mot de passe doit contenir au moins 6 caractères.");
+    throw new Error(messages.passwordTooShort);
   }
 
   if (password !== confirmation) {
-    throw new Error("Les deux mots de passe ne correspondent pas.");
+    throw new Error(messages.passwordMismatch);
   }
 };
 
-const validateTwoFactorCode = (code) => {
+const validateTwoFactorCode = (code, messages) => {
   if (!/^\d{6}$/.test(cleanText(code))) {
-    throw new Error("Le code 2FA doit contenir exactement 6 chiffres.");
+    throw new Error(messages.invalidTwoFactor);
   }
 };
 
@@ -196,7 +236,8 @@ export const getProfileInitials = (fullName) => {
     .toUpperCase();
 };
 
-export function useProfileAccount() {
+export function useProfileAccount(messages = defaultMessages) {
+  const copy = useMemo(() => ({ ...defaultMessages, ...messages }), [messages]);
   const [storedProfile, setStoredProfile] = useState(readStoredProfile);
   const [isAuthenticated, setIsAuthenticated] = useState(() =>
     hasValidSession(readStoredProfile()),
@@ -214,26 +255,26 @@ export function useProfileAccount() {
     } catch (error) {
       return {
         ok: false,
-        message: error instanceof Error ? error.message : "Action impossible pour le moment.",
+        message: error instanceof Error ? error.message : copy.actionFailed,
       };
     } finally {
       setIsBusy(false);
     }
-  }, []);
+  }, [copy.actionFailed]);
 
   const createAccount = useCallback(
     (values) =>
       runAccountAction(async () => {
         if (storedProfile) {
-          throw new Error("Un profil existe déjà sur cet appareil.");
+          throw new Error(copy.accountExists);
         }
 
         const normalizedValues = normalizeProfileValues(values);
-        validateBaseProfile(normalizedValues);
-        validatePassword(values.password, values.confirmPassword);
+        validateBaseProfile(normalizedValues, copy);
+        validatePassword(values.password, values.confirmPassword, copy);
 
         if (normalizedValues.twoFactorEnabled) {
-          validateTwoFactorCode(values.twoFactorCode);
+          validateTwoFactorCode(values.twoFactorCode, copy);
         }
 
         const salt = createId();
@@ -253,35 +294,35 @@ export function useProfileAccount() {
           },
         };
 
-        writeJson(PROFILE_STORAGE_KEY, nextProfile);
+        writeJson(PROFILE_STORAGE_KEY, nextProfile, copy);
         writeSession(nextProfile.id);
         setStoredProfile(nextProfile);
         setIsAuthenticated(true);
 
-        return "Compte créé et connecté.";
+        return copy.accountCreated;
       }),
-    [runAccountAction, storedProfile],
+    [copy, runAccountAction, storedProfile],
   );
 
   const login = useCallback(
     (values) =>
       runAccountAction(async () => {
         if (!storedProfile) {
-          throw new Error("Aucun profil n'existe encore sur cet appareil.");
+          throw new Error(copy.noAccount);
         }
 
         if (!matchesLoginIdentifier(storedProfile, values.loginId)) {
-          throw new Error("Contact ou email incorrect.");
+          throw new Error(copy.invalidLogin);
         }
 
         const passwordHash = await hashSecret(values.password, storedProfile.security.salt);
 
         if (passwordHash !== storedProfile.security.passwordHash) {
-          throw new Error("Mot de passe incorrect.");
+          throw new Error(copy.invalidPassword);
         }
 
         if (storedProfile.security.twoFactorEnabled) {
-          validateTwoFactorCode(values.twoFactorCode);
+          validateTwoFactorCode(values.twoFactorCode, copy);
 
           const twoFactorHash = await hashSecret(
             values.twoFactorCode,
@@ -289,16 +330,16 @@ export function useProfileAccount() {
           );
 
           if (twoFactorHash !== storedProfile.security.twoFactorHash) {
-            throw new Error("Code 2FA incorrect.");
+            throw new Error(copy.invalidTwoFactorLogin);
           }
         }
 
         writeSession(storedProfile.id);
         setIsAuthenticated(true);
 
-        return "Connexion réussie.";
+        return copy.loginSuccess;
       }),
-    [runAccountAction, storedProfile],
+    [copy, runAccountAction, storedProfile],
   );
 
   const logout = useCallback(() => {
@@ -310,11 +351,11 @@ export function useProfileAccount() {
     (values) =>
       runAccountAction(async () => {
         if (!storedProfile || !isAuthenticated) {
-          throw new Error("Connectez-vous pour modifier le profil.");
+          throw new Error(copy.loginToEdit);
         }
 
         const normalizedValues = normalizeProfileValues(values);
-        validateBaseProfile(normalizedValues);
+        validateBaseProfile(normalizedValues, copy);
 
         const nextSecurity = {
           ...storedProfile.security,
@@ -322,7 +363,7 @@ export function useProfileAccount() {
         };
 
         if (cleanText(values.newPassword)) {
-          validatePassword(values.newPassword, values.confirmNewPassword);
+          validatePassword(values.newPassword, values.confirmNewPassword, copy);
           nextSecurity.passwordHash = await hashSecret(
             values.newPassword,
             storedProfile.security.salt,
@@ -334,7 +375,7 @@ export function useProfileAccount() {
           const hasNewCode = Boolean(cleanText(values.twoFactorCode));
 
           if (!hasExistingCode || hasNewCode) {
-            validateTwoFactorCode(values.twoFactorCode);
+            validateTwoFactorCode(values.twoFactorCode, copy);
             nextSecurity.twoFactorHash = await hashSecret(
               values.twoFactorCode,
               storedProfile.security.salt,
@@ -351,12 +392,12 @@ export function useProfileAccount() {
           security: nextSecurity,
         };
 
-        writeJson(PROFILE_STORAGE_KEY, nextProfile);
+        writeJson(PROFILE_STORAGE_KEY, nextProfile, copy);
         setStoredProfile(nextProfile);
 
-        return "Profil mis à jour.";
+        return copy.profileUpdated;
       }),
-    [isAuthenticated, runAccountAction, storedProfile],
+    [copy, isAuthenticated, runAccountAction, storedProfile],
   );
 
   const deleteAccount = useCallback(() => {

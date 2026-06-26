@@ -1,12 +1,11 @@
 import { PageIntro } from "../components/PageIntro";
 import { RitualsSection } from "../components/sections/RitualsSection";
-import { pageIntros, rituals } from "../data/siteContent";
 
-export function RitualsPage() {
+export function RitualsPage({ content }) {
   return (
     <>
-      <PageIntro intro={pageIntros.rituel} />
-      <RitualsSection rituals={rituals} />
+      <PageIntro intro={content.pageIntros.rituel} />
+      <RitualsSection copy={content.ritualsSection} rituals={content.rituals} />
     </>
   );
 }
