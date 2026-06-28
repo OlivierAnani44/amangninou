@@ -26,6 +26,7 @@ const createDraft = (content) => ({
     youtubeUrl: content.contactSettings.youtubeUrl,
     tiktokUrl: content.contactSettings.tiktokUrl,
   },
+  services: cloneItems(content.services),
   products: cloneItems(content.products),
   tipVideos: cloneItems(content.tipVideos),
   ritualVideos: cloneItems(content.ritualVideos),
@@ -41,6 +42,17 @@ const parseList = (value) =>
 const listToText = (items) => (Array.isArray(items) ? items.join(", ") : "");
 
 const normalizeNumber = (value) => String(value ?? "").replace(/\D/g, "");
+
+const newService = () => ({
+  id: createId("service"),
+  title: "Nouveau service",
+  label: "Conseil",
+  category: "Spiritualité",
+  problem: "Besoin à préciser",
+  description: "Description du service.",
+  points: ["Contact", "Orientation", "Suivi"],
+  icon: "Sparkles",
+});
 
 const newProduct = () => ({
   id: createId("produit"),
@@ -198,6 +210,10 @@ export function AdminPage({ content }) {
       languages: {
         ...(currentAdminContent.languages ?? {}),
         [currentLanguage]: {
+          services: draft.services.map((service) => ({
+            ...service,
+            points: Array.isArray(service.points) ? service.points : parseList(service.points),
+          })),
           products: draft.products.map((product) => ({
             ...product,
             price: Number(product.price) || 0,
@@ -311,6 +327,38 @@ export function AdminPage({ content }) {
                   <AdminTextInput label="Email" value={draft.contact.email} onChange={(value) => updateDraft("contact", "email", value)} />
                   <AdminTextInput label="YouTube" value={draft.contact.youtubeUrl} onChange={(value) => updateDraft("contact", "youtubeUrl", value)} />
                   <AdminTextInput label="TikTok" value={draft.contact.tiktokUrl} onChange={(value) => updateDraft("contact", "tiktokUrl", value)} />
+                </div>
+              </section>
+
+              <section className="admin-panel">
+                <div className="admin-panel-heading">
+                  <AppIcon name="ShieldCheck" size={22} />
+                  <h2>Services</h2>
+                </div>
+                <button className="secondary-action" type="button" onClick={() => addItem("services", newService())}>
+                  <AppIcon name="ShieldCheck" size={18} />
+                  Ajouter un service
+                </button>
+                <div className="admin-list">
+                  {draft.services.map((service, index) => (
+                    <article className="admin-item" key={service.id}>
+                      <div className="admin-item-heading">
+                        <strong>{service.title}</strong>
+                        <button type="button" onClick={() => removeItem("services", index)}>
+                          <AppIcon name="Trash2" size={17} />
+                        </button>
+                      </div>
+                      <div className="admin-form-grid">
+                        <AdminTextInput label="Titre" value={service.title} onChange={(value) => updateItem("services", index, "title", value)} />
+                        <AdminTextInput label="Badge" value={service.label} onChange={(value) => updateItem("services", index, "label", value)} />
+                        <AdminTextInput label="Catégorie" value={service.category} onChange={(value) => updateItem("services", index, "category", value)} />
+                        <AdminTextInput label="Problème traité" value={service.problem} onChange={(value) => updateItem("services", index, "problem", value)} />
+                        <AdminTextInput label="Icône" value={service.icon} onChange={(value) => updateItem("services", index, "icon", value)} />
+                        <AdminTextInput label="Points" value={listToText(service.points)} onChange={(value) => updateItem("services", index, "points", parseList(value))} />
+                      </div>
+                      <AdminTextarea label="Description" value={service.description} onChange={(value) => updateItem("services", index, "description", value)} />
+                    </article>
+                  ))}
                 </div>
               </section>
 

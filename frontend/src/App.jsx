@@ -2,8 +2,10 @@ import { useCallback, useMemo, useState } from "react";
 import { AppShell } from "./components/AppShell";
 import { SiteFooter } from "./components/sections/SiteFooter";
 import { useActiveTab } from "./hooks/useActiveTab";
+import { useDailyFezanNotifications } from "./hooks/useDailyFezanNotifications";
 import { useLanguagePreference } from "./hooks/useLanguagePreference";
 import { useThemeMode } from "./hooks/useThemeMode";
+import { AiPage } from "./pages/AiPage";
 import { AdminPage } from "./pages/AdminPage";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
@@ -22,6 +24,7 @@ function App() {
   const { content, language, changeLanguage } = useLanguagePreference();
   const activeTab = useActiveTab(content.navigationItems);
   const { isDarkMode, themeMode, toggleThemeMode } = useThemeMode();
+  const dailyFezanNotifications = useDailyFezanNotifications();
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   const toggleMenu = useCallback(() => setMenuOpen((current) => !current), []);
@@ -42,6 +45,7 @@ function App() {
 
   const pages = {
     accueil: <HomePage content={content} />,
+    ia: <AiPage content={content} dailyNotifications={dailyFezanNotifications} />,
     services: <ServicesPage content={content} />,
     astuces: <TipsPage content={content} />,
     temoignages: <TestimonialsPage content={content} />,

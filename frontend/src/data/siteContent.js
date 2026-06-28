@@ -10,6 +10,7 @@ export const primaryTabIds = ["accueil", "services", "astuces", "boutique", "rit
 
 const baseNavigation = [
   { id: "accueil", href: "#accueil", icon: "Home" },
+  { id: "ia", href: "#ia", icon: "Bot" },
   { id: "services", href: "#services", icon: "ShieldCheck" },
   { id: "astuces", href: "#astuces", icon: "CirclePlay" },
   { id: "temoignages", href: "#temoignages", icon: "MessageCircle" },
@@ -21,6 +22,7 @@ const baseNavigation = [
 ];
 
 const baseSecondaryNavigation = [
+  { id: "ia", href: "#ia", icon: "Bot" },
   { id: "profil", href: "#profil", icon: "UserRound" },
   { id: "admin", href: "#admin", icon: "Settings" },
   { id: "contact", href: "#contact", icon: "MessageCircle" },
@@ -107,6 +109,7 @@ const dictionaries = {
       enableLightMode: "Activer le mode clair",
       enableDarkMode: "Activer le mode sombre",
       contact: "Contact",
+      ai: "Ouvrir Amangninou IA",
       whatsapp: "Contacter sur WhatsApp",
       whatsappMessage: "Bonjour, je souhaite avoir des informations sur les services de Togbe Amangninou.",
       mainTabs: "Onglets principaux",
@@ -115,6 +118,7 @@ const dictionaries = {
     },
     navigation: {
       accueil: "Accueil",
+      ia: "IA",
       services: "Services",
       astuces: "Astuces",
       temoignages: "Confiance",
@@ -134,6 +138,13 @@ const dictionaries = {
         description: "Les besoins sont regroupés clairement pour trouver le bon échange sans confusion.",
         icon: "ShieldCheck",
         action: "Demander conseil",
+      },
+      ia: {
+        eyebrow: "Assistant IA",
+        title: "Amangninou IA",
+        description: "Posez une question sur le Fezan, les services, la boutique, les rituels ou les contacts du site.",
+        icon: "Bot",
+        action: "Questionner le Fezan",
       },
       astuces: {
         eyebrow: "Astuces",
@@ -184,6 +195,34 @@ const dictionaries = {
         icon: "MessageCircle",
         action: "Écrire sur WhatsApp",
       },
+    },
+    aiSection: {
+      eyebrow: "Assistant du site et du calendrier Fezan",
+      greeting: "Bonjour, comment puis-je vous aider ?",
+      description: "Demandez le type Fezan d'une date, les services, les produits, les rituels ou les contacts du site.",
+      statusReady: "Assistant disponible",
+      statusThinking: "Recherche en cours",
+      statusOffline: "Backend IA non connecté",
+      voiceLabel: "Voix fr-FR-HenriNeural",
+      ttsLabel: "Réponse vocale",
+      dailyNotificationLabel: "Notification du jour",
+      dailyNotificationActive: "Notification active",
+      dailyNotificationDenied: "Notifications bloquées",
+      inputLabel: "Votre question",
+      placeholder: "Posez une question sur le Fezan ou le site...",
+      send: "Envoyer",
+      loading: "Réponse en cours...",
+      error: "Impossible de joindre l'IA locale. Vérifiez que le backend Python est lancé.",
+      welcome:
+        "Bonjour, je suis Amangninou IA. Je réponds sur le Fezan et les informations utiles du site.",
+      quickQuestions: [
+        "Quel est le type Fezan d'aujourd'hui ?",
+        "Quels sont les services proposés ?",
+        "Que signifie le jour Fa ?",
+        "Quels produits sont dans la boutique ?",
+      ],
+      disclaimer:
+        "Les réponses Fezan viennent de la base intégrée. Les informations du site restent indicatives et peuvent être confirmées sur WhatsApp.",
     },
     hero: {
       eyebrow: "Spiritualité africaine, plantes et accompagnement",
@@ -575,6 +614,7 @@ const dictionaries = {
       enableLightMode: "Enable light mode",
       enableDarkMode: "Enable dark mode",
       contact: "Contact",
+      ai: "Open Amangninou AI",
       whatsapp: "Contact on WhatsApp",
       whatsappMessage: "Hello, I would like information about Togbe Amangninou's services.",
       mainTabs: "Main tabs",
@@ -583,6 +623,7 @@ const dictionaries = {
     },
     navigation: {
       accueil: "Home",
+      ia: "AI",
       services: "Services",
       astuces: "Tips",
       temoignages: "Trust",
@@ -597,6 +638,7 @@ const dictionaries = {
     },
     pageIntros: {
       services: { eyebrow: "Services", title: "Spiritual guidance", description: "Needs are grouped clearly so you can find the right first conversation without confusion.", icon: "ShieldCheck", action: "Ask for advice" },
+      ia: { eyebrow: "AI assistant", title: "Amangninou AI", description: "Ask about Fezan, services, the shop, rituals or site contacts.", icon: "Bot", action: "Ask the assistant" },
       astuces: { eyebrow: "Tips", title: "Advice, videos and guidance", description: "Simple videos to understand the approach, see the seriousness of the work and ask better questions.", icon: "CirclePlay", action: "Watch videos" },
       temoignages: { eyebrow: "Trust", title: "Evidence and experiences", description: "Experience feedback, caution rules and proof are presented without automatic promises.", icon: "BadgeCheck", action: "Ask a question" },
       boutique: { eyebrow: "Shop", title: "Traditional shop", description: "Simple categories, readable precautions and a clear cart before any order.", icon: "ShoppingBag", action: "View products" },
@@ -604,6 +646,32 @@ const dictionaries = {
       profil: { eyebrow: "Profile", title: "Profile space", description: "Optional account, chosen notifications, stronger security and simple settings.", icon: "UserRound", action: "Configure profile" },
       admin: { eyebrow: "Admin", title: "Site management", description: "A private space to edit visible content, products, videos, testimonials and contact details.", icon: "Settings", action: "Open admin" },
       contact: { eyebrow: "Contact", title: "Discreet contact", description: "A clear message helps guide the request before any consultation or order.", icon: "MessageCircle", action: "Write on WhatsApp" },
+    },
+    aiSection: {
+      eyebrow: "Site and Fezan calendar assistant",
+      greeting: "Hello, how can I help?",
+      description: "Ask for a Fezan date type, services, products, rituals or site contact details.",
+      statusReady: "Assistant ready",
+      statusThinking: "Searching",
+      statusOffline: "AI backend offline",
+      voiceLabel: "Voice fr-FR-HenriNeural",
+      ttsLabel: "Spoken answer",
+      dailyNotificationLabel: "Daily notification",
+      dailyNotificationActive: "Notification active",
+      dailyNotificationDenied: "Notifications blocked",
+      inputLabel: "Your question",
+      placeholder: "Ask about Fezan or the site...",
+      send: "Send",
+      loading: "Answer in progress...",
+      error: "The local AI cannot be reached. Check that the Python backend is running.",
+      welcome: "Hello, I am Amangninou AI. I answer about Fezan and useful site information.",
+      quickQuestions: [
+        "What is today's Fezan day type?",
+        "What services are offered?",
+        "What does the Fa day mean?",
+        "Which products are in the shop?",
+      ],
+      disclaimer: "Fezan answers come from the integrated base. Site information is indicative and can be confirmed on WhatsApp.",
     },
     hero: {
       eyebrow: "African spirituality, plants and guidance",
@@ -1165,6 +1233,7 @@ dictionaries.es = {
     enableLightMode: "Activar modo claro",
     enableDarkMode: "Activar modo oscuro",
     contact: "Contacto",
+    ai: "Abrir Amangninou IA",
     whatsapp: "Contactar por WhatsApp",
     whatsappMessage: "Hola, deseo recibir información sobre los servicios de Togbe Amangninou.",
     mainTabs: "Pestañas principales",
@@ -1173,6 +1242,7 @@ dictionaries.es = {
   },
   navigation: {
       accueil: "Inicio",
+      ia: "IA",
       services: "Servicios",
       astuces: "Consejos",
       temoignages: "Confianza",
@@ -1187,6 +1257,7 @@ dictionaries.es = {
   },
   pageIntros: {
     services: { eyebrow: "Servicios", title: "Acompañamiento espiritual", description: "Las necesidades se organizan claramente para encontrar el intercambio adecuado sin confusión.", icon: "ShieldCheck", action: "Pedir consejo" },
+    ia: { eyebrow: "Asistente IA", title: "Amangninou IA", description: "Pregunte por el Fezan, servicios, tienda, rituales o contactos del sitio.", icon: "Bot", action: "Preguntar al asistente" },
     astuces: { eyebrow: "Consejos", title: "Consejos, videos y referencias", description: "Videos simples para comprender el enfoque, ver la seriedad del trabajo y hacer mejores preguntas.", icon: "CirclePlay", action: "Ver videos" },
     temoignages: { eyebrow: "Confianza", title: "Pruebas y experiencias", description: "Experiencias, reglas de prudencia y pruebas presentadas sin promesas automáticas.", icon: "BadgeCheck", action: "Hacer una pregunta" },
     boutique: { eyebrow: "Tienda", title: "Tienda tradicional", description: "Categorías simples, precauciones claras y un carrito legible antes de cualquier pedido.", icon: "ShoppingBag", action: "Ver productos" },
@@ -1194,6 +1265,34 @@ dictionaries.es = {
     profil: { eyebrow: "Perfil", title: "Espacio de perfil", description: "Cuenta opcional, notificaciones elegidas, seguridad reforzada y ajustes simples.", icon: "UserRound", action: "Configurar perfil" },
     admin: { eyebrow: "Admin", title: "Gestión del sitio", description: "Un espacio privado para editar contenidos visibles, productos, videos, testimonios y contactos.", icon: "Settings", action: "Abrir admin" },
     contact: { eyebrow: "Contacto", title: "Contacto discreto", description: "Un mensaje claro ayuda a orientar la solicitud antes de cualquier consulta o pedido.", icon: "MessageCircle", action: "Escribir por WhatsApp" },
+  },
+  aiSection: {
+    eyebrow: "Asistente del sitio y calendario Fezan",
+    greeting: "Hola, ¿cómo puedo ayudarle?",
+    description: "Pregunte por una fecha Fezan, servicios, productos, rituales o contactos del sitio.",
+    statusReady: "Asistente disponible",
+    statusThinking: "Búsqueda en curso",
+    statusOffline: "Backend IA no conectado",
+    voiceLabel: "Voz fr-FR-HenriNeural",
+    ttsLabel: "Respuesta vocal",
+    dailyNotificationLabel: "Notificación diaria",
+    dailyNotificationActive: "Notificación activa",
+    dailyNotificationDenied: "Notificaciones bloqueadas",
+    inputLabel: "Su pregunta",
+    placeholder: "Pregunte por el Fezan o el sitio...",
+    send: "Enviar",
+    loading: "Respuesta en curso...",
+    error: "No se puede contactar con la IA local. Compruebe que el backend Python está iniciado.",
+    welcome:
+      "Hola, soy Amangninou IA. Respondo sobre el Fezan y la información útil del sitio.",
+    quickQuestions: [
+      "¿Cuál es el tipo de día Fezan de hoy?",
+      "¿Qué servicios se ofrecen?",
+      "¿Qué significa el día Fa?",
+      "¿Qué productos hay en la tienda?",
+    ],
+    disclaimer:
+      "Las respuestas Fezan vienen de la base integrada. La información del sitio es indicativa y puede confirmarse por WhatsApp.",
   },
   hero: {
     eyebrow: "Espiritualidad africana, plantas y acompañamiento",
@@ -1470,7 +1569,11 @@ dictionaries.es = {
 
 const withAction = (intro, href) => ({
   ...intro,
-  action: { label: intro.action, href, icon: intro.icon === "ShoppingBag" ? "ShoppingBag" : "MessageCircle" },
+  action: {
+    label: intro.action,
+    href,
+    icon: intro.icon === "ShoppingBag" || intro.icon === "Bot" ? intro.icon : "MessageCircle",
+  },
 });
 
 export const formatMessageTemplate = (template, replacements) =>
@@ -1488,6 +1591,10 @@ export const buildWhatsAppUrl = (message = "", number = whatsappNumber) => {
 };
 
 const getPageIntroHref = (key, dictionary, contactSettings) => {
+  if (key === "ia") {
+    return "#ia-chat";
+  }
+
   if (key === "astuces") {
     return "#astuces";
   }
@@ -1597,6 +1704,7 @@ export const getSiteContent = (languageCode = defaultLanguage, adminContent = {}
     primaryTabIds,
     secondaryNavigationItems: makeNavigation(dictionary.navigation, baseSecondaryNavigation),
     pageIntros,
+    aiSection: dictionary.aiSection,
     hero: dictionary.hero,
     heroStats: dictionary.heroStats,
     ownerProfile: { ...ownerImage, ...dictionary.ownerProfile, ...(adminContent.ownerProfile ?? {}) },
@@ -1608,7 +1716,9 @@ export const getSiteContent = (languageCode = defaultLanguage, adminContent = {}
     serviceCategories: dictionary.serviceCategories,
     servicesSection: dictionary.servicesSection,
     processSteps: dictionary.processSteps,
-    services: makeServices(dictionary),
+    services: languageAdminContent.services?.length
+      ? languageAdminContent.services
+      : makeServices(dictionary),
     trustSection: dictionary.trustSection,
     trustItems: dictionary.trustItems,
     testimonials: languageAdminContent.testimonials?.length
@@ -1641,6 +1751,86 @@ export const getSiteContent = (languageCode = defaultLanguage, adminContent = {}
     footer: dictionary.footer,
   };
 };
+
+const keepText = (value, maxLength = 420) =>
+  String(value ?? "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength);
+
+const keepList = (items, maxItems = 12) =>
+  Array.isArray(items) ? items.slice(0, maxItems) : [];
+
+export const buildAiSiteContext = (content) => ({
+  language: content.language,
+  locale: content.locale,
+  site: {
+    name: "Amangninou",
+    title: keepText(content.hero?.title || content.ownerProfile?.name),
+    description: keepText(content.hero?.text || content.footer),
+  },
+  ownerProfile: {
+    name: keepText(content.ownerProfile?.name, 120),
+    role: keepText(content.ownerProfile?.role, 160),
+    specialty: keepText(content.ownerProfile?.specialty, 220),
+  },
+  contact: {
+    whatsappNumber: keepText(content.contactSettings?.whatsappNumber, 40),
+    phoneDisplay: keepText(content.contactSettings?.phoneDisplay, 80),
+    email: keepText(content.contactSettings?.email, 160),
+    youtubeUrl: keepText(content.contactSettings?.youtubeUrl, 260),
+    tiktokUrl: keepText(content.contactSettings?.tiktokUrl, 260),
+  },
+  services: keepList(content.services, 20).map((service) => ({
+    id: keepText(service.id, 80),
+    title: keepText(service.title, 160),
+    label: keepText(service.label, 120),
+    category: keepText(service.category, 120),
+    problem: keepText(service.problem, 180),
+    description: keepText(service.description),
+    points: keepList(service.points, 6).map((point) => keepText(point, 80)),
+  })),
+  products: keepList(content.products, 40).map((product) => ({
+    id: keepText(product.id, 80),
+    name: keepText(product.name, 180),
+    category: keepText(product.category, 140),
+    filter: keepText(product.filter, 140),
+    price: Number(product.price) || 0,
+    badges: keepList(product.badges, 8).map((badge) => keepText(badge, 100)),
+    description: keepText(product.description),
+  })),
+  rituals: keepList(content.rituals, 20).map((ritual) => ({
+    id: keepText(ritual.id, 80),
+    name: keepText(ritual.name, 140),
+    subtitle: keepText(ritual.subtitle, 180),
+    tone: keepText(ritual.tone, 120),
+    details: keepList(ritual.details, 8).map((detail) => keepText(detail, 100)),
+    text: keepText(ritual.text),
+  })),
+  tipVideos: keepList(content.tipVideos, 20).map((video) => ({
+    title: keepText(video.title, 180),
+    tag: keepText(video.tag, 100),
+    description: keepText(video.description),
+    href: keepText(video.href, 260),
+  })),
+  ritualVideos: keepList(content.ritualVideos, 20).map((video) => ({
+    title: keepText(video.title, 180),
+    tag: keepText(video.tag, 100),
+    description: keepText(video.description),
+    href: keepText(video.href, 260),
+  })),
+  testimonials: keepList(content.testimonials, 20).map((testimonial) => ({
+    name: keepText(testimonial.name, 80),
+    context: keepText(testimonial.context, 160),
+    quote: keepText(testimonial.quote),
+  })),
+  trustItems: keepList(content.trustItems, 12).map((item) => ({
+    title: keepText(item.title, 140),
+    text: keepText(item.text),
+  })),
+  securityItems: keepList(content.securityItems, 12).map((item) => keepText(item, 180)),
+  footer: keepText(content.footer),
+});
 
 export const formatPrice = (price, locale = "fr-FR") =>
   new Intl.NumberFormat(locale, {

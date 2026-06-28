@@ -1,0 +1,2 @@
+"""Amangninou IA knowledge brain."""
+

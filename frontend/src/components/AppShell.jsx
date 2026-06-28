@@ -167,6 +167,10 @@ export function AppShell({
 
       {children}
 
+      <a className="floating-ai" href="#ia" aria-label={appCopy.ai}>
+        <AppIcon name="Bot" size={23} />
+      </a>
+
       <a className="floating-whatsapp" href={whatsappHref} aria-label={appCopy.whatsapp}>
         <AppIcon name="MessageCircle" size={23} />
       </a>

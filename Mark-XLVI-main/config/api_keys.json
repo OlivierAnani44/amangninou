@@ -1,0 +1,13 @@
+{
+    "gemini_api_key": "",
+    "application_mode": "amangninou_fezan_knowledge",
+    "llm_provider": "litert_lm",
+    "llm_model": "amangninou-slm",
+    "llm_url": "http://127.0.0.1:9379",
+    "tts_engine": "edgetts",
+    "tts_voice": "fr-FR-HenriNeural",
+    "stt_engine": "whisper",
+    "stt_model": "base",
+    "stt_language": "fr",
+    "os_system": "windows"
+}
